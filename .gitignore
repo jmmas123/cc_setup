@@ -1,0 +1,33 @@
+# Claude Code Setup Repository
+# Only track configuration files — exclude all auto-generated and sensitive data
+
+# ── Sensitive ──────────────────────────────────
+.credentials.json
+settings.local.json
+security_warnings_state_*.json
+stats-cache.json
+
+# ── Auto-generated / Session data ─────────────
+history.jsonl
+projects/
+debug/
+file-history/
+paste-cache/
+plans/
+session-env/
+shell-snapshots/
+statsig/
+tasks/
+telemetry/
+todos/
+cache/
+downloads/
+backups/
+ide/
+agent-memory/
+
+# ── Plugin installs (managed by plugin system) ─
+plugins/
+
+# ── OS files ───────────────────────────────────
+.DS_Store
