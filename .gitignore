@@ -3,11 +3,13 @@
 
 # ── Sensitive ──────────────────────────────────
 .credentials.json
+.env
 settings.local.json
 security_warnings_state_*.json
 stats-cache.json
 
 # ── Auto-generated / Session data ─────────────
+image-cache/
 history.jsonl
 projects/
 debug/

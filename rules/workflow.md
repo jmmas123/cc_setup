@@ -16,18 +16,6 @@ When beginning any session:
   > "We've covered a lot. Want to `/compact` or start fresh before the next task?"
 - Use Task tool with subagents for research-heavy work to preserve main context
 
-### State Documentation
-After completing significant work:
-1. Summarize what was accomplished
-2. Offer to update state documentation
-3. Note any decisions made and their rationale
-
-### Phase Transitions
-When completing a project phase:
-1. Verify all deliverables are complete
-2. Update state/roadmap documentation
-3. Suggest fresh session for next phase
-
 ## Session End Protocol
 
 Before ending or when user indicates they're done:
