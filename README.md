@@ -2,23 +2,45 @@
 
 Personal configuration for [Claude Code](https://claude.com/claude-code) — Anthropic's CLI agent for software engineering. This repo tracks the portable, non-sensitive parts of `~/.claude/` to replicate the setup across machines.
 
+## Quick Start
+
+**See [`SETUP.md`](SETUP.md)** for a step-by-step guide to set this up on a new machine.
+
 ## What's Included
 
 ```
 ~/.claude/
 ├── CLAUDE.md                          # Global instructions (loaded in every project)
-├── settings.json                      # Hooks, enabled plugins
+├── settings.json                      # Hooks, MCP servers, enabled plugins
 ├── hooks/
-│   └── session-start.sh               # Injects STATE.md on session start
+│   ├── session-start.sh               # Injects STATE.md + git info on session start
+│   ├── bash-guard.sh                  # PreToolUse safety guard (blocks dangerous commands)
+│   ├── log-commands.sh                # PostToolUse command audit logger
+│   └── statusline.sh                  # Status bar info (git branch, STATE.md)
 ├── rules/
-│   └── workflow.md                    # Auto-loaded workflow discipline rules
+│   ├── workflow.md                    # Session protocol + compaction triggers
+│   ├── coding-standards.md            # Language/tool standards (Python, uv, pytest)
+│   ├── context-hygiene.md             # Anti-pollution rules (based on MIT research)
+│   └── continuous-improvement.md      # Proactive improvement detection
 ├── commands/
-│   └── adversarial-analysis.md        # /adversarial-analysis slash command
+│   ├── status.md                      # /status — project orientation
+│   ├── wrap-up.md                     # /wrap-up — session end protocol
+│   ├── review.md                      # /review — code review on recent changes
+│   ├── retro.md                       # /retro — session retrospective
+│   ├── meta-review.md                 # /meta-review — config audit
+│   └── adversarial-analysis.md        # /adversarial-analysis — multi-agent review
 ├── agents/
 │   ├── adversarial-reviewer.md        # Multi-round adversarial review agent
 │   ├── code-reviewer.md              # Code review specialist agent
 │   └── data-analyst.md               # Data analysis & metrics agent
+├── mcp/
+│   └── sql_server_mcp.py             # DWH MCP server (PostgreSQL/SQL Server)
+├── feedback/
+│   ├── retro-log.md                   # Append-only retrospective log
+│   └── friction-patterns.md           # Recurring friction themes
+├── .env.example                       # Database credential template
 ├── .gitignore                         # Excludes sensitive/auto-generated files
+├── SETUP.md                           # Setup guide for new machines
 └── README.md                          # This file
 ```
 
@@ -42,7 +64,7 @@ Personal configuration for [Claude Code](https://claude.com/claude-code) — Ant
 Loaded into **every** Claude Code session regardless of project. Defines:
 
 - **Golden Rules** — discuss before plan, plan before execute, verify before moving on, atomic commits
-- **Context Management** — proactive `/compact` suggestion at ~100k output tokens, automated state capture via hooks
+- **Context Management** — event-based `/compact` suggestions at safe checkpoints, automated state capture via hooks
 - **Session Discipline** — check for `STATE.md` on start, summarize and document on end
 - **Project Structure Expectation** — every project should have `CLAUDE.md`, `docs/STATE.md`, `docs/ROADMAP.md`
 - **Code Standards** — type hints (PEP 484), NumPy docstrings, no hardcoded secrets, `logging` over `print`
@@ -58,58 +80,65 @@ Hooks are shell scripts or agent prompts that fire at specific lifecycle events.
 ┌─────────────────────────────────────────────────────────────────┐
 │  SESSION START                                                  │
 │  ┌──────────────────────┐                                       │
-│  │  session-start.sh    │──▶ Finds STATE.md, injects content    │
-│  │  (command hook)      │    as context so Claude has prior      │
-│  └──────────────────────┘    session state immediately           │
+│  │  session-start.sh    │──▶ Injects STATE.md + git branch +    │
+│  │  (command hook)      │    last 3 commits + change warnings   │
+│  └──────────────────────┘                                       │
 │                                                                 │
 │  ... working session ...                                        │
 │                                                                 │
-│  CONTEXT FILLS UP (~100k tokens)                                │
-│  Claude suggests: "Want to /compact?"                           │
+│  ┌──────────────────────┐                                       │
+│  │  bash-guard.sh       │──▶ Blocks dangerous commands          │
+│  │  (PreToolUse)        │    (rm -rf /, force push main, etc.)  │
+│  └──────────────────────┘                                       │
+│  ┌──────────────────────┐                                       │
+│  │  log-commands.sh     │──▶ Logs all Bash commands with        │
+│  │  (PostToolUse)       │    timestamps (7-day rotation)        │
+│  └──────────────────────┘                                       │
+│                                                                 │
+│  SAFE CHECKPOINT REACHED (commit, task done, topic switch)      │
+│  Claude suggests: "Good checkpoint to /compact"                 │
 │                                                                 │
 │  PRE-COMPACT                                                    │
 │  ┌──────────────────────┐                                       │
-│  │  PreCompact agent    │──▶ Spawns subagent that:              │
-│  │  (agent hook, 120s)  │    • Reads git status + recent log    │
-│  └──────────────────────┘    • Writes docs/STATE.md with:       │
-│                                - Accomplished                   │
-│                                - In Progress                    │
-│                                - Pending items                  │
-│                                - Key Context                    │
-│                                                                 │
-│  COMPACTION RUNS                                                │
-│  Context compressed, prior messages summarized                  │
+│  │  PreCompact agent    │──▶ Captures facts-only STATE.md:      │
+│  │  (agent hook, 120s)  │    branch, changes, decisions,        │
+│  └──────────────────────┘    outcomes, blockers (no reasoning)   │
 │                                                                 │
 │  SESSION RESUMES (or new session)                               │
 │  ┌──────────────────────┐                                       │
-│  │  session-start.sh    │──▶ Re-injects STATE.md content        │
-│  │  fires again         │    for seamless continuity            │
+│  │  session-start.sh    │──▶ Re-injects STATE.md for            │
+│  │  fires again         │    seamless continuity                │
 │  └──────────────────────┘                                       │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 #### `SessionStart` — Command Hook
-
-- **Fires:** Every session start, resume, `/clear`, or `/compact`
 - **Script:** `hooks/session-start.sh`
-- **Behavior:** Searches for `docs/STATE.md`, `STATE.md`, or `.claude/STATE.md` and outputs its content as context. If none found, suggests creating one.
+- **Behavior:** Injects STATE.md content, shows git branch + last 3 commits, warns about uncommitted changes, checks for CLAUDE.md existence
 
 #### `PreCompact` — Agent Hook
-
-- **Fires:** Before context compaction (manual `/compact` or automatic)
-- **Type:** Agent (subagent with full tool access: Read, Write, Bash, Glob, Grep)
 - **Timeout:** 120 seconds
-- **Behavior:** Analyzes git state, recent commits, and uncommitted changes. Writes a structured state snapshot to `docs/STATE.md` (or project root if `docs/` doesn't exist). Overwrites prior content — it's a snapshot, not an append log.
+- **Behavior:** Captures facts-only STATE.md — branch, changes, user decisions, outcomes, blockers. No reasoning or analysis (anti-pollution).
 
-### 3. Workflow Rules (`rules/workflow.md`)
+#### `PreToolUse` — Command Hook (bash-guard.sh)
+- **Behavior:** Blocks dangerous Bash commands: `rm -rf /`, `rm -rf ~`, `git push --force` to main/master, `DROP TABLE/DATABASE`
 
-Auto-loaded into every session (rules are always injected). Enforces:
+#### `PostToolUse` — Command Hook (log-commands.sh)
+- **Behavior:** Logs all Bash commands to `command-history.log` with timestamps. Auto-rotates after 7 days.
 
-- **Session Start Protocol** — look for state files, confirm understanding
-- **Context Awareness** — monitor usage, suggest `/compact` proactively
-- **State Documentation** — summarize after significant work, update state docs
-- **Phase Transitions** — verify deliverables, update roadmap, suggest fresh session
-- **Quality Checks** — code runs, changes are atomic, docs are current, no secrets exposed
+#### `Notification` — Command Hook
+- **Behavior:** macOS notification with sound when Claude needs attention
+
+### 3. Rules (`rules/`)
+
+Auto-loaded into every session. Four rule files:
+
+| Rule | Purpose |
+|------|---------|
+| `workflow.md` | Session protocol, event-based compaction triggers, STATE.md format |
+| `coding-standards.md` | Python type hints, NumPy docstrings, tool preferences (uv, rg, gh) |
+| `context-hygiene.md` | Anti-pollution rules based on MIT research (arXiv:2602.24287) |
+| `continuous-improvement.md` | Watches for automation opportunities, stale config, missing conventions |
 
 ### 4. Custom Agents (`agents/`)
 
@@ -138,7 +167,12 @@ Slash commands available in any session.
 
 | Command | Description |
 |---------|-------------|
-| `/adversarial-analysis` | Launches a full GAN-style multi-agent review (Proposer vs Critic) for any design, architecture, or complex decision. Produces a design document + prioritized implementation queue. |
+| `/status` | Quick project orientation — git state, STATE.md, blockers |
+| `/wrap-up` | Session end protocol — summarize, update STATE.md, note next steps |
+| `/review` | Code review on recent changes (git diff) |
+| `/retro` | Session retrospective — capture what worked, what didn't, improve config |
+| `/meta-review` | Periodic config audit — rules, memory, commands, permissions health check |
+| `/adversarial-analysis` | Multi-agent red-team review for designs, architectures, complex decisions |
 
 ### 6. Enabled Plugins (`settings.json`)
 
@@ -165,37 +199,15 @@ Slash commands available in any session.
 
 ## Installation
 
-### Fresh Machine Setup
+See **[`SETUP.md`](SETUP.md)** for detailed step-by-step instructions, including troubleshooting.
+
+**Quick version:**
 
 ```bash
-# Clone into ~/.claude (must be empty or non-existent)
 git clone git@github.com:jmmas123/cc_setup.git ~/.claude
-
-# Or if ~/.claude already exists with other files:
-cd ~/.claude
-git init
-git remote add origin git@github.com:jmmas123/cc_setup.git
-git fetch origin
-git checkout -b main origin/main
-```
-
-### After Installing Claude Code
-
-1. **Authenticate:** Run `claude` and follow the auth flow — creates `.credentials.json` (gitignored)
-2. **Local settings:** Create `settings.local.json` for machine-specific permission overrides (gitignored)
-3. **Plugins:** Plugins listed in `settings.json` will be auto-resolved; some may need manual enabling via `/plugins`
-4. **Hook permissions:** On first trigger, Claude Code will prompt to approve each hook
-
-### Keeping in Sync
-
-```bash
-# After making changes to config
-cd ~/.claude
-git add -A && git commit -m "Update [what changed]"
-git push
-
-# On another machine
-cd ~/.claude && git pull
+claude  # authenticate
+# Create settings.local.json with your permission overrides
+# Create .env with your database credentials (optional)
 ```
 
 ---
