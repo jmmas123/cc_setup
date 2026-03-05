@@ -8,6 +8,11 @@ settings.local.json
 security_warnings_state_*.json
 stats-cache.json
 
+# ── Runtime artifacts ─────────────────────────
+command-history.log
+.log-rotated
+mcp-needs-auth-cache.json
+
 # ── Auto-generated / Session data ─────────────
 image-cache/
 history.jsonl
