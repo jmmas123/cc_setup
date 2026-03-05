@@ -32,7 +32,11 @@ Personal configuration for [Claude Code](https://claude.com/claude-code) — Ant
 ├── agents/
 │   ├── adversarial-reviewer.md        # Multi-round adversarial review agent
 │   ├── code-reviewer.md              # Code review specialist agent
-│   └── data-analyst.md               # Data analysis & metrics agent
+│   ├── data-analyst.md               # Data analysis & metrics agent
+│   ├── debugger.md                    # Systematic root cause debugger
+│   ├── security-auditor.md            # Deep security review + threat modeling
+│   ├── sql-analyst.md                 # Database exploration & query building
+│   └── test-writer.md                 # Test generation (pytest-style)
 ├── mcp/
 │   └── sql_server_mcp.py             # DWH MCP server (PostgreSQL/SQL Server)
 ├── feedback/
@@ -149,6 +153,10 @@ Specialized subagents spawned via the `Task` tool for focused work.
 | **code-reviewer** | Sonnet | Reviews for correctness, security (OWASP), performance, project standards | After writing or modifying code |
 | **adversarial-reviewer** | Opus | Multi-round red-team analysis with convergence scoring (target: 8.5/10) | Validating designs, architectures, models, formulas |
 | **data-analyst** | Sonnet | Runs scripts, computes metrics, profiles datasets, returns concise summaries | Exploratory analysis, data quality checks, metric computation |
+| **debugger** | Sonnet | Systematic root cause analysis — isolates verbose debugging from main context | Bugs, test failures, crashes, unexpected behavior |
+| **sql-analyst** | Sonnet | Database exploration, query building, schema discovery, data profiling | Schema questions, complex queries, data profiling |
+| **test-writer** | Sonnet | Generates pytest-style tests with edge cases and error paths | After writing new code or modifying existing code |
+| **security-auditor** | Sonnet | Deep security review, dependency scanning, secret detection, threat modeling | Security audits, pre-deployment review, new attack surface |
 
 #### Adversarial Reviewer Protocol
 
