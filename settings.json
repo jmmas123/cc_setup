@@ -17,6 +17,7 @@
         "hooks": [
           {
             "type": "agent",
+            "prompt": "Before context compaction, capture session state. Run `git status` and `git log --oneline -5`. Create or update docs/STATE.md (or STATE.md if no docs/) with: what was accomplished, in-progress work, pending items, and key context. Keep under 40 lines. Overwrite prior content entirely.",
             "timeout": 120
           }
         ]
