@@ -10,11 +10,20 @@ When beginning any session:
 
 ## During Work
 
-### Context Awareness
-- Monitor context usage mentally
-- At heavy context (~60%+), proactively mention:
-  > "We've covered a lot. Want to `/compact` or start fresh before the next task?"
+### Compaction Checkpoints
+Suggest `/compact` (or fresh session) at these safe boundaries — don't wait for context to feel heavy:
+
+- **After a git commit** — work is saved, natural pause point
+- **After completing a task or phase** — logical boundary, context from prior task is now pollution
+- **After a topic switch** — old context becomes irrelevant noise
+- **After heavy subagent research** — search results bloat context without ongoing value
+- **After resolving a blocker** — debugging context is high-volume, low-reuse
+
+When suggesting, be brief: `"Good checkpoint to /compact — state is saved."` Don't explain why unless asked.
+
+### Context Preservation
 - Use Task tool with subagents for research-heavy work to preserve main context
+- PreCompact hook auto-saves STATE.md, so compaction is always safe
 
 ## Session End Protocol
 

@@ -4,7 +4,7 @@ These principles apply to ALL my projects.
 
 ## Golden Rules
 
-1. **Fresh context per major task** - Proactively suggest `/compact` or new session after completing phases or at ~60% context usage
+1. **Fresh context per major task** - Suggest `/compact` or new session at safe checkpoints (see workflow.md)
 2. **Discuss before plan** - Clarify requirements and approach before diving into implementation
 3. **Plan before execute** - For non-trivial tasks, outline the approach first
 4. **Verify before moving on** - Review outputs together before marking phases complete
@@ -13,9 +13,8 @@ These principles apply to ALL my projects.
 
 ## Context Management
 
-- At ~100K output tokens, suggest `/compact`. PreCompact hook auto-saves STATE.md
+- PreCompact hook auto-saves STATE.md — compaction is always safe
 - Use subagents for heavy research to preserve main context
-- After major task completion, suggest starting fresh if context is heavy
 
 ## Project Structure Expectation
 
