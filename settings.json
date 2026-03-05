@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "agent",
-            "prompt": "Before context compaction, capture session state. Run `git status` and `git log --oneline -5`. Create or update docs/STATE.md (or STATE.md if no docs/) with: what was accomplished, in-progress work, pending items, and key context. Keep under 40 lines. Overwrite prior content entirely.",
+            "prompt": "Before context compaction, capture session state for continuity. IMPORTANT: Record only FACTS, DECISIONS, and OUTCOMES — never preserve your own reasoning, explanations, or analysis (these are context pollution vectors that degrade future responses).\n\nSteps:\n1. Run `git status` and `git log --oneline -5`\n2. Create or update docs/STATE.md (or STATE.md if no docs/) with ONLY:\n   - **Facts**: Branch, run status, file paths changed, metrics observed\n   - **User decisions**: What the user chose and why (in their words, not yours)\n   - **Outcomes**: What worked, what failed, error messages verbatim\n   - **Blockers**: Specific technical blockers with error details\n   - **Pending**: Concrete next actions (not your suggestions — only what was agreed)\n3. Do NOT include: your analysis, recommendations, reasoning chains, or explanations\n4. Keep under 40 lines. Overwrite prior content entirely.",
             "timeout": 120
           }
         ]

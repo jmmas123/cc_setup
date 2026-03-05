@@ -19,13 +19,14 @@ When beginning any session:
 ## Session End Protocol
 
 Before ending or when user indicates they're done:
-1. Summarize session accomplishments
-2. Update `docs/STATE.md` with:
-   - Current position
-   - What was completed
-   - Next steps
-   - Any open questions
-3. Ensure any important context is preserved in documentation
+1. Briefly summarize session accomplishments
+2. Update `docs/STATE.md` with facts only (no reasoning or analysis):
+   - Current position (branch, phase, what's running)
+   - What changed (files modified, metrics observed, commits made)
+   - User decisions (what they chose, in their words)
+   - Pending actions (only what was explicitly agreed)
+   - Blockers (with exact error messages if applicable)
+3. Keep STATE.md under 40 lines — it's a handoff document, not a narrative
 
 ## Quality Checks
 
