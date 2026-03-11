@@ -84,12 +84,6 @@
       }
     ]
   },
-  "mcpServers": {
-    "dwh": {
-      "command": "python3",
-      "args": ["~/.claude/mcp/sql_server_mcp.py"]
-    }
-  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/hooks/statusline.sh"
@@ -111,5 +105,14 @@
     "linear@claude-plugins-official": true,
     "firecrawl@claude-plugins-official": true,
     "semgrep@claude-plugins-official": true
-  }
+  },
+  "mcpServers": {
+    "dwh": {
+      "command": "python3",
+      "args": [
+        "~/.claude/mcp/sql_server_mcp.py"
+      ]
+    }
+  },
+  "effortLevel": "high"
 }
