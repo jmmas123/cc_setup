@@ -74,12 +74,12 @@ def get_connection():
         return pyodbc.connect(conn_str)
 
 
-def run_query(sql: str, limit: int = ROW_LIMIT) -> list[dict]:
+def run_query(sql: str, params: tuple = (), limit: int = ROW_LIMIT) -> list[dict]:
     """Execute a read-only query and return results as list of dicts."""
     conn = get_connection()
     try:
         cur = conn.cursor()
-        cur.execute(sql)
+        cur.execute(sql, params)
         columns = [desc[0] for desc in cur.description] if cur.description else []
         rows = cur.fetchmany(limit)
         return [dict(zip(columns, row)) for row in rows]
@@ -128,21 +128,21 @@ def list_tables(schema: str = "dbo") -> str:
         Schema name (default: dbo for SQL Server, public for PostgreSQL).
     """
     if DB_DRIVER == "postgresql":
-        sql = f"""
+        sql = """
             SELECT table_name, table_type
             FROM information_schema.tables
-            WHERE table_schema = '{schema}'
+            WHERE table_schema = %s
             ORDER BY table_name
         """
     else:
-        sql = f"""
+        sql = """
             SELECT TABLE_NAME, TABLE_TYPE
             FROM INFORMATION_SCHEMA.TABLES
-            WHERE TABLE_SCHEMA = '{schema}'
+            WHERE TABLE_SCHEMA = ?
             ORDER BY TABLE_NAME
         """
     try:
-        rows = run_query(sql, limit=500)
+        rows = run_query(sql, (schema,), limit=500)
         return json.dumps(rows, default=str, indent=2)
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -159,14 +159,22 @@ def describe_table(table: str, schema: str = "dbo") -> str:
     schema : str
         Schema name (default: dbo for SQL Server, public for PostgreSQL).
     """
-    sql = f"""
-        SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, CHARACTER_MAXIMUM_LENGTH
-        FROM INFORMATION_SCHEMA.COLUMNS
-        WHERE TABLE_SCHEMA = '{schema}' AND TABLE_NAME = '{table}'
-        ORDER BY ORDINAL_POSITION
-    """
+    if DB_DRIVER == "postgresql":
+        sql = """
+            SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, CHARACTER_MAXIMUM_LENGTH
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s
+            ORDER BY ORDINAL_POSITION
+        """
+    else:
+        sql = """
+            SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, CHARACTER_MAXIMUM_LENGTH
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?
+            ORDER BY ORDINAL_POSITION
+        """
     try:
-        rows = run_query(sql, limit=500)
+        rows = run_query(sql, (schema, table), limit=500)
         return json.dumps(rows, default=str, indent=2)
     except Exception as e:
         return json.dumps({"error": str(e)})
