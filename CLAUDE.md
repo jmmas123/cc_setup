@@ -29,28 +29,40 @@ Every project should ideally have:
 - For trivial tasks (file reads, simple edits, quick lookups), adaptive thinking will naturally scale down — no action needed.
 - When uncertain about complexity, err on the side of deeper reasoning.
 
-## Superpowers Skills — MANDATORY
+## Skills — MANDATORY
 
-You have superpowers skills installed. **You MUST invoke relevant skills before responding.** This is not optional.
+**Invoke relevant skills before responding.** This is not optional.
 
-- **Any feature/change/build request** → invoke `brainstorming` FIRST, then `writing-plans`
-- **Any bug/test failure/unexpected behavior** → invoke `systematic-debugging` FIRST
-- **Any implementation from a plan** → invoke `executing-plans` or `subagent-driven-development`
-- **Before claiming work is done** → invoke `verification-before-completion`
-- **After completing a feature** → invoke `finishing-a-development-branch`
+- **Any feature/change/build request** → invoke `claude-mem:make-plan` FIRST (covers both brainstorming and plan writing)
+- **Any bug/test failure/unexpected behavior** → use `debugger` agent FIRST
+- **Any implementation from a plan** → invoke `claude-mem:do`
+- **Before claiming work is done** → invoke `review`
+- **After completing a feature** → invoke `wrap-up`
 
 Do NOT rationalize skipping skills. "This is simple" is not an excuse. Invoke the skill; if it turns out unnecessary, you'll know in seconds.
 
 ## Planning → Execution Workflow
 
 When a task requires planning (most non-trivial tasks):
-1. Invoke `brainstorming` → design doc
-2. Invoke `writing-plans` → implementation plan with bite-sized tasks
-3. Present the user with execution options:
+1. Invoke `claude-mem:make-plan` → design doc + implementation plan with bite-sized tasks
+2. Present the user with execution options:
    - **Option A (Recommended for complex work):** `/compact` + fresh session with plan as context + auto-accept edits. This gives the implementer clean context.
-   - **Option B:** Subagent-driven development in current session
+   - **Option B:** Invoke `claude-mem:do` for subagent-driven execution in current session
    - **Option C:** Manual step-by-step in current session
-4. Always recommend Option A for plans with 5+ tasks.
+3. Always recommend Option A for plans with 5+ tasks.
+
+## Agent Types
+
+When spawning agents, always use the full qualified `plugin:agent` name. Common ones:
+- `code-simplifier:code-simplifier` (NOT `code-simplifier`)
+- `feature-dev:code-reviewer` (NOT `code-reviewer` — that's a different standalone agent)
+- `feature-dev:code-explorer`
+- `feature-dev:code-architect`
+
+**Before spawning parallel agents, follow the coordination protocol in `agent-coordination.md`.** Key rules:
+- Read-only agents → parallel freely
+- Write agents → `isolation: "worktree"` when parallel, sequential when overlapping files
+- Never spawn parallel writers without declaring file targets first
 
 ## Communication Style
 
