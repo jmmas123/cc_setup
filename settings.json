@@ -2,6 +2,61 @@
   "env": {
     "CLAUDE_CODE_DISABLED_ADAPTIVE_THINKING": "1"
   },
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(git:*)",
+      "Bash(python3:*)",
+      "Bash(tmux:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Bash(curl:*)",
+      "Bash(chmod:*)",
+      "Bash(readlink:*)",
+      "Bash(pgrep:*)",
+      "Bash(sudo:*)",
+      "Bash(brew:*)",
+      "Bash(gh:*)",
+      "Bash(crontab:*)",
+      "Bash(mdfind:*)",
+      "Bash(sw_vers:*)",
+      "Bash(sysctl:*)",
+      "Bash(pmset:*)",
+      "Bash(npm:*)",
+      "Bash(go:*)",
+      "Bash(log show:*)",
+      "Bash(launchctl:*)",
+      "Bash(defaults read:*)",
+      "Bash(open:*)",
+      "Bash(/bin/bash:*)",
+      "Bash(which:*)",
+      "Bash(lsof:*)",
+      "Bash(system_profiler:*)",
+      "Bash(dscl:*)",
+      "Bash(bash:*)",
+      "Bash(ln:*)",
+      "Bash(infocmp:*)",
+      "Bash(env:*)",
+      "Bash(osascript:*)",
+      "Bash(terminal-notifier:*)",
+      "Bash(/Applications/Ghostty.app/*:*)",
+      "Bash(ghostty:*)",
+      "Bash(man:*)",
+      "Bash(/opt/homebrew/bin/tmux:*)",
+      "Read(//tmp/**)",
+      "Skill(keybindings-help)",
+      "Bash(bun --version)",
+      "Bash(_R=\"/Users/jm/.claude/plugins/marketplaces/thedotmack/plugin\")",
+      "Bash(node \"$_/scripts/bun-runner.js\" \"$_/scripts/worker-service.cjs\" hook claude-code summarize)",
+      "Bash(node \"$_scripts/bun-runner.js\" \"$_scripts/worker-service.cjs\" hook claude-code summarize)"
+    ],
+    "defaultMode": "auto"
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -94,7 +149,6 @@
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
     "github@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
@@ -108,13 +162,20 @@
     "linear@claude-plugins-official": true,
     "firecrawl@claude-plugins-official": true,
     "semgrep@claude-plugins-official": true,
-    "claude-mem@thedotmack": true
+    "claude-mem@thedotmack": true,
+    "superpowers@superpowers-marketplace": true
   },
   "extraKnownMarketplaces": {
     "thedotmack": {
       "source": {
         "source": "github",
         "repo": "thedotmack/claude-mem"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
       }
     }
   },
