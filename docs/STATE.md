@@ -1,24 +1,27 @@
 # State — ~/.claude config repo
 
-**Date**: 2026-03-16
-**Branch**: main
+**Date**: 2026-04-17
+**Branch**: main (at `63f3244`)
 
-## What Changed
+## What Changed This Session
 
-- 3 commits: `9f00292`, `d977bdf`, `5f6eab9`
-- MCP server: parameterized queries for list_tables/describe_table
-- Notification hooks: notify.sh + ghostty-focus.sh (Ghostty-aware)
-- Permissions: consolidated from 79 to 48 entries in settings.local.json
-- New commands: `/improve` (review CLAUDE.md proposals)
-- Enhanced commands: `/wrap-up`, `/retro`, `/meta-review` (detect + stage proposals)
-- New file: `feedback/claude-md-proposals.md` (staging file for proposals)
-- Spec: `docs/superpowers/specs/2026-03-16-self-improving-claude-md-design.md`
-- Installed: claude-mem plugin v10.5.5, Bun 1.3.10
+- **Removed redundant `~/cc_setup/` clone** — `~/.claude/` is the single cc_setup checkout
+- **3 new commits on origin/main**:
+  - `120336e` — notify.sh: terminal-notifier accumulation crash fix (2026-04-01 incident)
+  - `46e1f94` — effortLevel: high → xhigh
+  - `63f3244` — Add install.sh to own `terminal-notifier` Homebrew dependency
+- **Pulled upstream**: commit `159eafe` (permissions allowlist + superpowers marketplace)
+- **Ownership boundary with `terminal_setup`**: cc_setup owns all Claude Code files; terminal_setup drops `claude-code/` and `terminal-notifier` brew install
+- **Memory**: added `reference_cc_setup_repo.md` and `reference_terminal_setup_repo.md`
 
 ## Pending
 
-- 1 pending proposal in `feedback/claude-md-proposals.md` (#001 re: semgrep)
-- Compaction threshold: user wants to observe before changing
+- 1 persistent local-only delta in `settings.json` (not on origin, intentional): `skipAutoPermissionPrompt: true`, `permissions.defaultMode: "auto"` — do not commit without user direction
+- 1 pending proposal in `feedback/claude-md-proposals.md` (#001, semgrep) — unchanged from last session
+
+## Next Steps
+
+- Unrelated to config repos: resume Sentinel P1 (beaconing detector, ARP monitor, DNS integrity, VPN enforcement) — see `~/sentinel/docs/STATE.md`
 
 ## Blockers
 
