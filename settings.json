@@ -118,7 +118,7 @@
       }
     }
   },
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "mcpServers": {
     "dwh": {
       "command": "python3",
