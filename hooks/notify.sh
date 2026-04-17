@@ -50,7 +50,13 @@ COUNT=$(cat "$BADGE_FILE" 2>/dev/null || echo 0)
 COUNT=$((COUNT + 1))
 echo "$COUNT" > "$BADGE_FILE"
 
-# --- Send notification (backgrounded — terminal-notifier blocks until dismissed) ---
+# --- Send notification ---
+# Remove previous Claude Code notification to prevent process accumulation.
+# terminal-notifier stays alive until dismissed; without cleanup this caused
+# a launchservicesd thread exhaustion crash (2026-04-01).
+terminal-notifier -remove com.mitchellh.ghostty.claude 2>/dev/null
+pkill -xf "terminal-notifier.*-group com.mitchellh.ghostty.claude" 2>/dev/null
+
 SUBTITLE="${MATCHED_TITLE:-Ghostty}"
 
 if [ -n "$MATCHED_TITLE" ]; then
@@ -60,6 +66,7 @@ if [ -n "$MATCHED_TITLE" ]; then
         -message "Needs your attention" \
         -sound Ping \
         -sender com.mitchellh.ghostty \
+        -group com.mitchellh.ghostty.claude \
         -execute "$FOCUS_SCRIPT '$MATCHED_TITLE'" &
 else
     terminal-notifier \
@@ -67,6 +74,7 @@ else
         -message "Needs your attention" \
         -sound Ping \
         -sender com.mitchellh.ghostty \
+        -group com.mitchellh.ghostty.claude \
         -activate com.mitchellh.ghostty &
 fi
 disown 2>/dev/null
