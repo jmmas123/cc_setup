@@ -32,14 +32,23 @@ cp ~/.claude.bak/.credentials.json ~/.claude/ 2>/dev/null
 cp ~/.claude.bak/settings.local.json ~/.claude/ 2>/dev/null
 ```
 
-## Step 2: Authenticate
+## Step 2: Install Dependencies
+
+```bash
+cd ~/.claude
+./install.sh
+```
+
+Installs `terminal-notifier` (used by `hooks/notify.sh`) and marks hook scripts executable.
+
+## Step 3: Authenticate
 
 ```bash
 claude
 # Follow the auth flow — this creates .credentials.json (gitignored)
 ```
 
-## Step 3: Create Local Permissions
+## Step 4: Create Local Permissions
 
 Create `~/.claude/settings.local.json` with your machine-specific permission overrides. This file is gitignored — it won't be shared.
 
@@ -71,7 +80,7 @@ Create `~/.claude/settings.local.json` with your machine-specific permission ove
 
 Adjust to your comfort level — add more tools as you use them. Claude will prompt for anything not on the allow list.
 
-## Step 4: Set Up Credentials (Optional)
+## Step 5: Set Up Credentials (Optional)
 
 If the DWH MCP server is relevant to you, create `~/.claude/.env`:
 
@@ -80,7 +89,7 @@ cp ~/.claude/.env.example ~/.claude/.env
 # Edit with your actual database credentials
 ```
 
-## Step 5: Verify
+## Step 6: Verify
 
 Start a new `claude` session and check:
 
@@ -89,7 +98,7 @@ Start a new `claude` session and check:
 - [ ] **Commands available** — type `/` and look for: status, wrap-up, review, retro, meta-review, adversarial-analysis
 - [ ] **Notification hook works** — when Claude pauses for permission, you should hear a sound
 
-## Step 6: Customize
+## Step 7: Customize
 
 Things you'll likely want to personalize:
 

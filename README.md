@@ -213,6 +213,7 @@ See **[`SETUP.md`](SETUP.md)** for detailed step-by-step instructions, including
 
 ```bash
 git clone git@github.com:jmmas123/cc_setup.git ~/.claude
+cd ~/.claude && ./install.sh   # installs terminal-notifier, marks hooks executable
 claude  # authenticate
 # Create settings.local.json with your permission overrides
 # Create .env with your database credentials (optional)
