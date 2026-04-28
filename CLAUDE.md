@@ -37,6 +37,7 @@ Every project should ideally have:
 - **Any bug/test failure/unexpected behavior** → use `debugger` agent FIRST
 - **Any implementation from a plan** → invoke `claude-mem:do`
 - **Before claiming work is done** → invoke `review`
+- **For production/safety-critical code (sentinel, auth, payment, infra)** → invoke `/strict-review` instead of `/review` — runs the strict reviewer + adversarial verification against NASA P10 / OWASP Top 10 / IEC 61508 / CERT spirit.
 - **After completing a feature** → invoke `wrap-up`
 
 Do NOT rationalize skipping skills. "This is simple" is not an excuse. Invoke the skill; if it turns out unnecessary, you'll know in seconds.
@@ -58,6 +59,7 @@ When spawning agents, always use the full qualified `plugin:agent` name. Common 
 - `feature-dev:code-reviewer` (NOT `code-reviewer` — that's a different standalone agent)
 - `feature-dev:code-explorer`
 - `feature-dev:code-architect`
+- `code-reviewer-strict` — heavy, opus-based standalone agent; orchestrated by `/strict-review` slash command (do not invoke directly)
 
 **Before spawning parallel agents, follow the coordination protocol in `agent-coordination.md`.** Key rules:
 - Read-only agents → parallel freely
