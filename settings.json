@@ -156,7 +156,7 @@
     "supabase@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
-    "huggingface-skills@claude-plugins-official": true,
+    "huggingface-skills@claude-plugins-official": false,
     "skill-creator@claude-plugins-official": true,
     "feature-dev@claude-plugins-official": true,
     "linear@claude-plugins-official": true,
@@ -180,6 +180,7 @@
     }
   },
   "effortLevel": "xhigh",
+  "skipAutoPermissionPrompt": true,
   "mcpServers": {
     "dwh": {
       "command": "python3",
@@ -187,5 +188,7 @@
         "~/.claude/mcp/sql_server_mcp.py"
       ]
     }
-  }
+  },
+  "verbose": true,
+  "preferredNotifChannel": "iterm2_with_bell"
 }
