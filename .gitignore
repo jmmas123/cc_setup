@@ -11,6 +11,8 @@ stats-cache.json
 # ── Runtime artifacts ─────────────────────────
 command-history.log
 .log-rotated
+.last-cleanup
+scheduled_tasks.lock
 mcp-needs-auth-cache.json
 
 # ── Auto-generated / Session data ─────────────
