@@ -161,7 +161,7 @@
     "feature-dev@claude-plugins-official": true,
     "linear@claude-plugins-official": true,
     "firecrawl@claude-plugins-official": true,
-    "semgrep@claude-plugins-official": true,
+    "semgrep@claude-plugins-official": false,
     "claude-mem@thedotmack": true,
     "superpowers@superpowers-marketplace": true,
     "swift-lsp@claude-plugins-official": true

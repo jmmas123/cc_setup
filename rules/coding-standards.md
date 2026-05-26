@@ -18,3 +18,6 @@ These apply to ALL projects.
 - Prefer editing existing files over creating new ones
 - Atomic commits — one logical change per commit
 - No unnecessary abstractions or over-engineering
+
+## Frontend / UI
+When picking a modern CSS feature for production UI (`backdrop-filter: url()`, `feDisplacementMap`, `paint-order` on text, container queries, `:has()`, etc.), verify Safari + Firefox + iOS support with WebSearch or caniuse before committing. State the cross-browser story in your first response, not after iteration. If the feature is Chromium-only, name it explicitly and ask whether graceful degradation is acceptable for the user's audience.

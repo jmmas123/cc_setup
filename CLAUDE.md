@@ -10,6 +10,7 @@ These principles apply to ALL my projects.
 4. **Verify before moving on** - Review outputs together before marking phases complete
 5. **Document state changes** - Update `docs/STATE.md` (or equivalent) after significant work
 6. **Atomic commits** - One logical change per commit, clear commit messages
+7. **Test libraries in the real project, not isolated demos** - When evaluating a new library or framework feature, integrate it into the existing project's dev server first rather than building an isolated CDN/file:// demo. Isolated demos invent failure modes (CORS, `file://` origin restrictions, esm.sh peer-dep resolution, dual-React-instance bugs) that obscure the library's actual behavior. A throwaway test route in the real project costs ~5 minutes; debugging a CDN demo failing for environmental reasons can cost 30+ minutes per iteration.
 
 ## Context Management
 
