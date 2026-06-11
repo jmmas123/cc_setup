@@ -1,27 +1,33 @@
 # State — ~/.claude config repo
 
-**Date**: 2026-04-17
-**Branch**: main (at `63f3244`)
+**Date**: 2026-06-11
+**Branch**: main (at `02aa79c`, pushed, in sync with origin)
 
 ## What Changed This Session
 
-- **Removed redundant `~/cc_setup/` clone** — `~/.claude/` is the single cc_setup checkout
-- **3 new commits on origin/main**:
-  - `120336e` — notify.sh: terminal-notifier accumulation crash fix (2026-04-01 incident)
-  - `46e1f94` — effortLevel: high → xhigh
-  - `63f3244` — Add install.sh to own `terminal-notifier` Homebrew dependency
-- **Pulled upstream**: commit `159eafe` (permissions allowlist + superpowers marketplace)
-- **Ownership boundary with `terminal_setup`**: cc_setup owns all Claude Code files; terminal_setup drops `claude-code/` and `terminal-notifier` brew install
-- **Memory**: added `reference_cc_setup_repo.md` and `reference_terminal_setup_repo.md`
+- **Pulled upstream** `cb219dc..c2a05ef` (5 commits): statusline context-window
+  token counter, plugin set freeze (added code-review/hookify/typescript-lsp,
+  superpowers moved to official marketplace, supabase disabled), project
+  assimilation gate design spec, runtime-artifact gitignore, claude-md proposals
+- **Resolved `settings.json` conflict** (stash → pull → pop, union merge):
+  upstream `skipWorkflowUsageWarning` + local `model: claude-fable-5[1m]`,
+  `tui: fullscreen`, `editorMode: normal`, `terminalProgressBarEnabled`,
+  `agentPushNotifEnabled`
+- **2 commits pushed**:
+  - `1cdc6fe` — gitignore: `chrome/`, `daemon/` (contains `control.key` secret),
+    `daemon.log`, `jobs/`; deduped `.last-cleanup`
+  - `02aa79c` — merged settings.json
+- User decided: commit local settings deltas and push (previous "do not commit
+  without user direction" note is resolved — no local-only deltas remain)
 
 ## Pending
 
-- 1 persistent local-only delta in `settings.json` (not on origin, intentional): `skipAutoPermissionPrompt: true`, `permissions.defaultMode: "auto"` — do not commit without user direction
-- 1 pending proposal in `feedback/claude-md-proposals.md` (#001, semgrep) — unchanged from last session
+- 11 [PENDING] proposals in `feedback/claude-md-proposals.md` — review with `/improve`
 
 ## Next Steps
 
-- Unrelated to config repos: resume Sentinel P1 (beaconing detector, ARP monitor, DNS integrity, VPN enforcement) — see `~/sentinel/docs/STATE.md`
+- Unrelated to config repos: resume Sentinel P1 (beaconing detector, ARP monitor,
+  DNS integrity, VPN enforcement) — see `~/sentinel/docs/STATE.md`
 
 ## Blockers
 
