@@ -57,6 +57,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -153,7 +154,7 @@
     "security-guidance@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "supabase@claude-plugins-official": true,
+    "supabase@claude-plugins-official": false,
     "explanatory-output-style@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
     "huggingface-skills@claude-plugins-official": false,
@@ -163,7 +164,11 @@
     "firecrawl@claude-plugins-official": true,
     "semgrep@claude-plugins-official": false,
     "claude-mem@thedotmack": true,
-    "superpowers@superpowers-marketplace": true,
+    "superpowers@superpowers-marketplace": false,
+    "superpowers@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -181,6 +186,9 @@
     }
   },
   "effortLevel": "xhigh",
+  "skipWorkflowUsageWarning": true,
+  "verbose": true,
+  "preferredNotifChannel": "iterm2_with_bell",
   "skipAutoPermissionPrompt": true,
   "mcpServers": {
     "dwh": {
@@ -189,7 +197,5 @@
         "~/.claude/mcp/sql_server_mcp.py"
       ]
     }
-  },
-  "verbose": true,
-  "preferredNotifChannel": "iterm2_with_bell"
+  }
 }
