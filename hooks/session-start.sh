@@ -38,6 +38,16 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   fi
 fi
 
+# --- cc_setup sync check (warn-only) ---
+# Compares against origin/main as of the last fetch (instant), then refreshes
+# the ref in the background so the next session's check is current.
+CC_BEHIND=$(git -C "$HOME/.claude" rev-list --count HEAD..origin/main 2>/dev/null)
+if [ -n "$CC_BEHIND" ] && [ "$CC_BEHIND" -gt 0 ]; then
+  echo ""
+  echo "⚠ cc_setup (~/.claude) is $CC_BEHIND commit(s) behind origin — run: git -C ~/.claude pull --rebase"
+fi
+(git -C "$HOME/.claude" fetch --quiet origin main >/dev/null 2>&1 &)
+
 # --- CLAUDE.md check ---
 if [ ! -f "CLAUDE.md" ]; then
   echo ""
