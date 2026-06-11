@@ -15,8 +15,11 @@ command-history.log
 scheduled_tasks.lock
 mcp-needs-auth-cache.json
 security/
-.last-cleanup
 .last-update-result.json
+chrome/
+daemon/
+daemon.log
+jobs/
 
 # ── Auto-generated / Session data ─────────────
 sessions/
