@@ -73,3 +73,4 @@ When spawning agents, always use the full qualified `plugin:agent` name. Common 
 - Quantify uncertainty in findings
 - Connect technical work to business impact
 - Ask clarifying questions early rather than assuming
+- When proposing copy for headings, taglines, eyebrows, or section labels in customer-facing materials, default to concrete artifacts (a service, a deliverable, a buyable thing) rather than abstract narrative concepts. If asked for a "standardized" set, propose at least one concrete-artifact variant alongside any abstract option, and flag which you recommend.

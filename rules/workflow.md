@@ -25,6 +25,10 @@ When suggesting, be brief: `"Good checkpoint to /compact — state is saved."` D
 - Use Task tool with subagents for research-heavy work to preserve main context
 - PreCompact hook auto-saves STATE.md, so compaction is always safe
 
+### Diagnosing UI/state regressions
+
+When the user reports a UI element "used to be here yesterday" or "where did X go?", the FIRST step is `git log -p --follow <file>` or `git diff HEAD~N <file>` against the version they remember — BEFORE forming any hypothesis. The element may have been renamed, moved, or relocated to a different DOM tree in a prior commit. Only after confirming the change isn't in version history should you treat it as a fresh bug.
+
 ## Session End Protocol
 
 Before ending or when user indicates they're done:

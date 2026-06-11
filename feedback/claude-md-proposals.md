@@ -51,7 +51,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #013 Fix or suppress the recurring SRI warning on `landing/index.html`
+### [DEFERRED] (2026-06-11) #013 Fix or suppress the recurring SRI warning on `landing/index.html`
+**Status note:** Deferred at /improve review — reconsider at next /meta-review or next caas-platform session. Repo confirmed at `~/source/caas-platform`.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-15
 - **Signal**: Semgrep `missing-integrity` warning fired on EVERY edit to `landing/index.html` this session (5+ times), pointing at the same two lines: GSAP `gsap.min.js` and `ScrollTrigger.min.js` on lines 20-21 of index.html. The warning is real (CWE-353) but pre-existing and unrelated to ongoing copy/visual edits. It adds noise to every reply and risks training me to ignore Semgrep output globally.
@@ -61,7 +63,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #014 Add "check git diff before diagnosing missing UI elements" to project workflow rules
+### [APPROVED] (2026-06-11) #014 Add "check git diff before diagnosing missing UI elements" to project workflow rules
+**Resolution:** Added "Diagnosing UI/state regressions" subsection to `~/.claude/rules/workflow.md` under "During Work". Text applied verbatim.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-15
 - **Signal**: Earlier in this session (per pre-compaction summary), I misdiagnosed a "missing hero card" as a ScrollTrigger init timing bug and started applying patches (onRefresh handler, inline styles, console.log, CSS opacity override) before the user redirected me: "no this is not possible, go check the diff vs the repo version of two days ago". The actual cause was that the card the user remembered had been moved to a different chapter in a previous commit. Multiple corrective edits had to be reverted.
@@ -71,7 +75,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #015 Add "ground copy proposals in concrete artifacts" to communication rules
+### [APPROVED] (2026-06-11) #015 Add "ground copy proposals in concrete artifacts" to communication rules
+**Resolution:** Added as a bullet under Communication Style in `~/.claude/CLAUDE.md`.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-15
 - **Signal**: Mid-session, I proposed a one-word eyebrow set (Substrate / Origin / Scale / Solutions / Marketplace / Tender / Intelligence / Delivery / Network) for the landing page cards. The user rejected it: "no i dont like the proposed eyebrow set. im planning to use the nav bar for something else. it has to be something more descriptive. maybe all the sections being proposed to the users." The rejected eyebrows were abstract narrative beats; the accepted replacement (Global Freight / Port & Yard Operations / Warehousing & Storage / ...) named concrete service categories users can buy.
@@ -81,7 +87,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #005 Audit existing dashboards before inventing new visual or URL primitives
+### [APPROVED] (2026-06-11) #005 Audit existing dashboards before inventing new visual or URL primitives
+**Resolution:** Redirected from global `rules/workflow.md` to the project level (user choice — text is atlas2-specific). Added "Building New Dashboards" section to `~/source/atlas_v2/CLAUDE.md` under Architecture. Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-15
 - **Signal**: While building the warehouse_performance dashboard in atlas2, the user redirected me three times for failing to follow existing dashboard conventions: (a) "standardize the cards, they are transparent and blurry" — I had invented `warehouse-performance-card` instead of using the project's standard `card widget-flat kpi-card` (defined once in `static/src/scss/components/_layout.scss`); (b) "standardize the new gauges to be the same as the ones we are currently using" — I had built bespoke rgba color steps instead of reusing the white→lightgreen→dark-green→black scheme used across analysis_and_warehouse_utilization and global_operations_analyst; (c) "the url for this dashboard reads /reports/ and this is not right, this should be under /analytics-modules/" — I followed the older `/reports/<name>/` pattern blindly, missing that NEW dashboards should live under `/analytics-modules/<name>/`. Each correction required a follow-up commit to swap to the standard.
@@ -91,7 +99,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #006 Note this project's eslint blocks setState-in-effect — seed React state via lazy initializers / derived values
+### [APPROVED] (2026-06-11) #006 Note this project's eslint blocks setState-in-effect — seed React state via lazy initializers / derived values
+**Resolution:** Added "Project conventions" section to `~/source/WeddingAssistant/frontend/AGENTS.md` (also reaches frontend/CLAUDE.md via its `@AGENTS.md` include). Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-30
 - **Signal**: Twice this session the frontend eslint rule `react-hooks/set-state-in-effect` fired as a build-blocking ERROR on the WeddingAssistant frontend: (1) my new `vendor-inquiry-settings.tsx` seeded draft state with `useEffect`+`setState` from react-query `data` — which also caused an infinite render loop (4 GB Node heap OOM in vitest) under a non-stable mocked `data`; (2) a pre-existing planner-category-preselect `useEffect` in `vendor-onboarding-form.tsx`. Both had to be refactored to a non-effect pattern before lint passed.
@@ -101,7 +111,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #007 Record out-of-scope warnings / pre-existing test failures in ROADMAP "Queued/deferred", don't fix inline
+### [APPROVED] (2026-06-11) #007 Record out-of-scope warnings / pre-existing test failures in ROADMAP "Queued/deferred", don't fix inline
+**Resolution:** Added "Tech debt / deferred items" subsection to `~/source/WeddingAssistant/CLAUDE.md` under Development Standards. Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-05-30
 - **Signal**: When eslint surfaced a pre-existing `@next/next/no-img-element` warning out of scope for the current task, the user said: "lets document this warning to be fixed or reviewd later. ignore if you have fixed it completely." The repo already tracks pre-existing frontend test failures in `docs/ROADMAP.md` (§8B-Marketplace "Queued / deferred"), so there is an established home for deferred items.
@@ -111,7 +123,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #008 Read the product-vision docs before brainstorming a new TΣNSOR facet/feature
+### [APPROVED] (2026-06-11) #008 Read the product-vision docs before brainstorming a new TΣNSOR facet/feature
+**Resolution:** Added as the first bullet of the Workflow section in `~/source/tensor/CLAUDE.md`. Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-06-04
 - **Signal**: While brainstorming the Services and (especially) Marketplace facets, the user redirected me to existing documentation I had not consulted: "you can check the documentation there should be a description of this on the documentation." `docs/FOUNDRY_INSPIRATION_AND_SPECS.md` already defined the Tender Marketplace + Rental Marketplace (their assets/uses) and named the ontology entities (Asset, Tender, Rental Capacity, Capacity Slot, Service Node) + actions (open tender, rent asset); `docs/NETWORK_UI_DESIGN.md` lists the same entities + layered UI modes. I had started proposing a model from first principles instead of designing to the documented vision, costing a round-trip.
@@ -121,7 +135,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #009 Visual consistency is non-negotiable when porting external content into a TΣNSOR facet
+### [APPROVED] (2026-06-11) #009 Visual consistency is non-negotiable when porting external content into a TΣNSOR facet
+**Resolution:** Added to the Visual system section in `~/source/tensor/CLAUDE.md`. Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-06-04
 - **Signal**: Designing the Analytics facet (which reuses atlas2's dashboards), the user stated a hard constraint: "the style and visuals need to be consistent. this is non-negotiable." Intent: bring atlas2's *content* (which KPIs, which chart types, the report structure) but render 100% in TΣNSOR's visual system — no Bootstrap/Plotly default look. Saved to project memory; it also governs every facet (Analytics now, Services/Marketplace, future), so it belongs in the authoritative project instructions, not only memory.
@@ -131,7 +147,9 @@ Review and apply with `/improve`.
 
 ---
 
-### [PENDING] #010 Read-only/review subagents must inspect history via SHAs, never `git checkout`
+### [APPROVED] (2026-06-11) #010 Read-only/review subagents must inspect history via SHAs, never `git checkout`
+**Resolution:** Added to `~/.claude/rules/agent-coordination.md` directly below the Agent Classification table. Text applied verbatim.
+
 - **Source**: wrap-up
 - **Date**: 2026-06-05
 - **Signal**: A final whole-branch code-review subagent (dispatched with Bash access) ran `git checkout main` to inspect the base, leaving the PARENT session checked out on `main`. Committed files then appeared reverted to old content (a real scare mid-session) — nothing was lost; recovered with `git checkout <branch>`. The current branch + working tree are shared mutable state the orchestrator depends on, and a read-only agent mutated them.
@@ -139,7 +157,9 @@ Review and apply with `/improve`.
 - **Section**: rules/agent-coordination.md (Agent Classification / Read-only)
 - **Rationale**: A review agent switching branches made committed work appear lost. Pinning read-only agents to SHA-based inspection keeps the orchestrator's branch/worktree from being mutated out from under it.
 
-### [PENDING] #011 Worktree agents must not share node_modules with the main checkout
+### [APPROVED] (2026-06-11) #011 Worktree agents must not share node_modules with the main checkout
+**Resolution:** Added two bullets to the Worktree Protocol section in `~/.claude/rules/agent-coordination.md` (no-symlink rule + stop-dev-server-before-dependency-mutation).
+
 - **Source**: wrap-up
 - **Date**: 2026-06-10
 - **Signal**: A frontend worktree agent symlinked node_modules from the main checkout to run tooling; the later `git worktree remove --force` cleanup destroyed the main checkout's real node_modules while the user's dev server was running, causing module-not-found cascades and a Turbopack panic. Separately, frontend dependency bumps (next/axios) under a live dev server produced the same class of breakage.
@@ -147,7 +167,9 @@ Review and apply with `/improve`.
 - **Section**: ~/.claude/rules/agent-coordination.md → Worktree Protocol
 - **Rationale**: Prevents destroying the main checkout's installed dependencies during worktree cleanup and avoids breaking a live dev server during dependency changes.
 
-### [PENDING] #012 WeddingAssistant: worktree setup needs .env copy and isolated test DBs
+### [APPROVED] (2026-06-11) #012 WeddingAssistant: worktree setup needs .env copy and isolated test DBs
+**Resolution:** Added as the first bullet of "Local dev orchestration" in `~/source/WeddingAssistant/CLAUDE.md`. Uncommitted in that repo.
+
 - **Source**: wrap-up
 - **Date**: 2026-06-10
 - **Signal**: Both backend worktree agents independently discovered that a fresh worktree lacks the gitignored `.env` (Django fails to boot: AI provider slot not registered) and that parallel pytest runs collide on the shared `test_weddingassistant` database (one agent had to invent a custom DATABASE_URL).
