@@ -16,7 +16,7 @@ Before summarizing, scan this session for CLAUDE.md improvement signals:
 
 For each signal found, append a structured proposal to `~/.claude/feedback/claude-md-proposals.md`:
 ```
-### [PENDING] #NNN Brief title
+### [PENDING] #YYYY-MM-DD-<host>-<letter> Brief title
 - **Source**: wrap-up
 - **Date**: YYYY-MM-DD
 - **Signal**: What was observed
@@ -24,7 +24,7 @@ For each signal found, append a structured proposal to `~/.claude/feedback/claud
 - **Section**: Which CLAUDE.md section this targets
 - **Rationale**: Why this improves future sessions
 ```
-Use the next sequential ID after the highest existing one in the file.
+Build the ID as `#YYYY-MM-DD-<host>-<letter>`: today's date, the short machine name (`hostname -s`, lowercased), and a letter (a, b, c...) incrementing per proposal staged on the same day+machine. IDs are collision-proof across machines syncing this repo — never renumber existing entries.
 
 If signals were found, end this step with:
 > "Staged N CLAUDE.md proposal(s) — review with `/improve` when ready."

@@ -37,7 +37,7 @@ Append a timestamped entry to `~/.claude/feedback/retro-log.md` with:
 
 For each actionable finding from steps 1-4 that would improve CLAUDE.md, append a structured proposal to `~/.claude/feedback/claude-md-proposals.md`:
 ```
-### [PENDING] #NNN Brief title
+### [PENDING] #YYYY-MM-DD-<host>-<letter> Brief title
 - **Source**: retro
 - **Date**: YYYY-MM-DD
 - **Signal**: What was observed or discussed
@@ -45,7 +45,7 @@ For each actionable finding from steps 1-4 that would improve CLAUDE.md, append 
 - **Section**: Which CLAUDE.md section this targets
 - **Rationale**: Why this improves future sessions
 ```
-Use the next sequential ID after the highest existing one in the file.
+Build the ID as `#YYYY-MM-DD-<host>-<letter>`: today's date, the short machine name (`hostname -s`, lowercased), and a letter (a, b, c...) incrementing per proposal staged on the same day+machine. IDs are collision-proof across machines syncing this repo — never renumber existing entries.
 
 Only stage proposals for things that belong in CLAUDE.md (cross-project behavioral guidance). Permission changes, new commands, and rule files are implemented directly in step 6.
 
