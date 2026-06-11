@@ -187,8 +187,12 @@
   },
   "effortLevel": "xhigh",
   "skipWorkflowUsageWarning": true,
+  "tui": "fullscreen",
+  "editorMode": "normal",
   "verbose": true,
   "preferredNotifChannel": "iterm2_with_bell",
+  "terminalProgressBarEnabled": true,
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "mcpServers": {
     "dwh": {
