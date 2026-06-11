@@ -20,4 +20,16 @@ else
     state_status="no STATE.md"
 fi
 
-echo "${branch} | ${state_status}"
+# Context window usage (Claude Code >= 2.1.132 provides context_window on stdin;
+# fields are null before the first API call and right after /compact)
+used=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
+size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
+pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+if [ -n "$used" ] && [ -n "$size" ] && [ "$size" -gt 0 ] 2>/dev/null; then
+    [ -z "$pct" ] && pct=$((used * 100 / size))
+    ctx_status="ctx $((used / 1000))k/$((size / 1000))k (${pct}%)"
+else
+    ctx_status="ctx –"
+fi
+
+echo "${branch} | ${state_status} | ${ctx_status}"
