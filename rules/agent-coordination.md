@@ -12,6 +12,15 @@ Before spawning agents, classify each by intent:
 
 **Read-only / review agents must inspect history WITHOUT mutating the working tree** — use `git show <sha>:<path>`, `git diff A..B`, `git log -p <sha>` against explicit SHAs. NEVER `git checkout` / `switch` / `stash` / `reset` / `restore` in a subagent: the parent's current branch + working tree are shared state, and switching them silently corrupts the parent's view (committed work can look reverted). When dispatching a review agent, pass BASE_SHA/HEAD_SHA and tell it to use SHA-based inspection only.
 
+## Subagent Mandate Boundaries (surface, don't self-decide)
+
+A subagent executes **exactly** the task it was dispatched with — no more. When it discovers something outside that task — a new bug, a review finding it wasn't asked to fix, a better approach, a scope expansion, a follow-up it "may as well do" — it must **STOP and SURFACE it to the orchestrator in its final report**, and let the orchestrator decide. It must NOT silently fix it, commit it, or otherwise act on it.
+
+- **Never act beyond the dispatched scope.** A reviewer reviews; it does not also fix. An implementer for task N does not also do task N+1, refactor adjacent code, or address a separate reviewer's findings. Out-of-scope work returns as a *recommendation*, not a *commit*.
+- **The orchestrator owns all merge/commit/scope decisions.** Surfacing preserves the orchestrator's view of what changed and why; self-deciding fragments authorship, hides changes from review, and can land unreviewed code.
+- **A subagent must exit when its task is done** — it does not stay alive watching the tree for more work to pick up.
+- When dispatching, state this explicitly: *"Do ONLY this task. If you find anything else worth doing, report it in your final message — do not act on it."*
+
 ## Pre-Spawn Checklist
 
 Before spawning parallel implementation agents:
