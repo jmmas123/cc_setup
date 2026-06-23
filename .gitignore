@@ -40,7 +40,8 @@ cache/
 downloads/
 backups/
 ide/
-agent-memory/
+# agent-memory: bare name (no trailing slash) so the Syncthing symlink is ignored too
+agent-memory
 
 # ── Plugin installs (managed by plugin system) ─
 plugins/
