@@ -100,7 +100,16 @@
       "Bash(uv:*)",
       "Bash(pip:*)",
       "Bash(pip3:*)",
-      "Bash(ollama:*)"
+      "Bash(ollama:*)",
+      "Read(//opt/homebrew/**)",
+      "Read(//usr/local/**)",
+      "Bash(claude plugin *)",
+      "Bash(semgrep mcp *)",
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "Bash(node /Users/jm/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/bun-runner.js *)",
+      "Bash(node /Users/jm/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/smart-install.js)",
+      "Bash(CLAUDE_PLUGIN_ROOT=/Users/jm/.claude/plugins/cache/*/superpowers/* bash /Users/jm/.claude/plugins/cache/*/superpowers/*/hooks/session-start)",
+      "Bash(CLAUDE_PLUGIN_ROOT=/Users/jm/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/* bash /Users/jm/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/*/hooks-handlers/session-start.sh)"
     ],
     "defaultMode": "auto"
   },
