@@ -11,7 +11,7 @@ fail=0
 
 # 1. Static: must not reference terminal-notifier or any residency construct.
 for pat in 'terminal-notifier' '\-execute' '\-activate' 'disown' 'ghostty-claude-badge' 'ghostty-focus'; do
-    if grep -qE "$pat" "$NOTIFY"; then
+    if grep -vE '^[[:space:]]*#' "$NOTIFY" | grep -qE "$pat"; then
         echo "FAIL: notify.sh references forbidden pattern: $pat"
         fail=1
     fi

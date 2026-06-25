@@ -9,7 +9,10 @@
 # notifier processes that would accumulate and exhaust launchservicesd's
 # 512-thread pool, hanging WindowServer and forcing a reboot (2026-06-23).
 # See docs/superpowers/specs/2026-06-23-notify-sh-rewrite-design.md.
-# Regression-tested: do not reintroduce resident notification patterns.
+#
+# DO NOT reintroduce terminal-notifier here: it stays resident until dismissed,
+# accumulated instances exhausted launchservicesd's thread pool and forced a
+# reboot (2026-06-23). Regression-tested by hooks/tests/test-notify-no-residency.sh.
 
 # Drain stdin (hook JSON; currently unused) so the writer never blocks.
 cat >/dev/null 2>&1
@@ -40,7 +43,7 @@ if [ -n "$WINDOW_LIST" ]; then
         for title in "${TITLES[@]}"; do
             title=$(echo "$title" | sed 's/^ *//;s/ *$//')
             normalized_title=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr '_-' '  ')
-            if echo "$normalized_title" | grep -q "$NORMALIZED_DIR"; then
+            if echo "$normalized_title" | grep -qF -- "$NORMALIZED_DIR"; then
                 MATCHED_TITLE="$title"
                 break
             fi
