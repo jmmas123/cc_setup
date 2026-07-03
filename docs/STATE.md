@@ -1,33 +1,40 @@
 # State — ~/.claude config repo
 
-**Date**: 2026-06-11
-**Branch**: main (at `02aa79c`, pushed, in sync with origin)
+**Date**: 2026-06-26
+**Branch**: main (at `2ff9541`, pushed, in sync with origin)
 
 ## What Changed This Session
 
-- **Pulled upstream** `cb219dc..c2a05ef` (5 commits): statusline context-window
-  token counter, plugin set freeze (added code-review/hookify/typescript-lsp,
-  superpowers moved to official marketplace, supabase disabled), project
-  assimilation gate design spec, runtime-artifact gitignore, claude-md proposals
-- **Resolved `settings.json` conflict** (stash → pull → pop, union merge):
-  upstream `skipWorkflowUsageWarning` + local `model: claude-fable-5[1m]`,
-  `tui: fullscreen`, `editorMode: normal`, `terminalProgressBarEnabled`,
-  `agentPushNotifEnabled`
-- **2 commits pushed**:
-  - `1cdc6fe` — gitignore: `chrome/`, `daemon/` (contains `control.key` secret),
-    `daemon.log`, `jobs/`; deduped `.last-cleanup`
-  - `02aa79c` — merged settings.json
-- User decided: commit local settings deltas and push (previous "do not commit
-  without user direction" note is resolved — no local-only deltas remain)
+- **Fixed the WindowServer/launchservicesd reboot crash (2026-06-23).** Root
+  cause: `hooks/notify.sh` spawned a resident `terminal-notifier` per Notification
+  event; ~468 accumulated over 8 days → launchservicesd 512-thread deadlock →
+  WindowServer watchdog crash loop → reboot. Confirmed via WindowServer `.spin`
+  stackshots (406/512 stuck queues = terminal-notifier).
+- **Rewrote `hooks/notify.sh`** to deliver via `osascript display notification`
+  (posts and exits, zero resident processes); kept window-title subtitle; dropped
+  click-to-focus + vestigial badge. Deleted `hooks/ghostty-focus.sh`. Added
+  regression test `hooks/tests/test-notify-no-residency.sh`.
+- **4 commits, merged to main + pushed** (`a424ca5` spec, `d53d519` fix+test,
+  `5ff8d2d` cleanup, `2ff9541` hardening). Spec at
+  `docs/superpowers/specs/2026-06-23-notify-sh-rewrite-design.md`.
+- **Removed `clawdbot`** (system, not this repo): the WhatsApp/Slack→Claude
+  gateway driving ~70 notifications/hr. Booted out LaunchAgents, removed plists,
+  `npm uninstall -g clawdbot`, rm /tmp/clawdbot. **`~/.clawdbot` (26MB creds) KEPT.**
+- **Saved memory** `project_clawdbot_removed.md` (+ MEMORY.md pointer).
+- Live-verified: hook leaves 0 resident processes; launchservicesd ~9 threads.
 
 ## Pending
 
-- 11 [PENDING] proposals in `feedback/claude-md-proposals.md` — review with `/improve`
+- 13 [PENDING] proposals in `feedback/claude-md-proposals.md` (2 new this session:
+  `#2026-06-26-jm-ms-a` /usr/bin/log shadowing, `#2026-06-26-jm-ms-b` scope
+  guard-test grep to executable lines) — review with `/improve`.
+- Pre-existing uncommitted (NOT from this session's feature work):
+  `settings.json`, `rules/workflow.md` — present at session start, untouched.
 
 ## Next Steps
 
-- Unrelated to config repos: resume Sentinel P1 (beaconing detector, ARP monitor,
-  DNS integrity, VPN enforcement) — see `~/sentinel/docs/STATE.md`
+- Optional: `/improve` to triage the 13 pending proposals.
+- Unrelated: Sentinel P1 — see `~/sentinel/docs/STATE.md`.
 
 ## Blockers
 
