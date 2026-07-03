@@ -6,7 +6,7 @@
     "allow": [
       "Bash(yt mine:*)",
       "Bash(yt view:*)",
-      "Bash(yt open:*)", 
+      "Bash(yt open:*)",
       "WebSearch",
       "WebFetch",
       "Bash(git:*)",
@@ -116,7 +116,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-opus-4-8",
   "hooks": {
     "SessionStart": [
       {
