@@ -257,3 +257,11 @@ Review and apply with `/improve`.
 - **Proposal**: In coding-standards.md under Python, change "NumPy-style docstrings for public functions" to "NumPy-style docstrings on public functions; include Parameters/Returns (Attributes for dataclasses) when the function/class takes 2+ non-obvious parameters, otherwise a concise summary docstring suffices."
 - **Section**: coding-standards.md -> Python
 - **Rationale**: Removes a recurring ambiguity that generated review churn; sets an unambiguous, proportionate bar so implementers and reviewers agree up front.
+
+### [PENDING] #2026-07-03-jm-ms-a A tracker ticket describing intended work is not proof it shipped — verify against source before documenting
+- **Source**: wrap-up
+- **Date**: 2026-07-03
+- **Signal**: During the kika retrospective, reconciling CLAUDE.md against KIK issue titles nearly wrote a false version into the doc. KIK-4 "Upgrade to Django 6" was Done and `pyproject.toml` confirmed `django>=6.0` (real drift, fixed) — but KIK-14 "Change Postgres version to 18" was stage *Review* and `docker-compose.yml` still ran `postgres:15-alpine`, so "Postgres 18" was NOT yet true. Reading the actual pins/config instead of trusting the ticket titles prevented documenting an unmerged change as done.
+- **Proposal**: Add to ~/.claude/CLAUDE.md → Planning → Execution Workflow ("Plan authoring quality"): "When documenting or reconciling project state from a tracker (issues/tickets), a ticket describing intended work is not evidence it merged. Verify each claim against the authoritative source (dependency pins, config files, running code) AND the ticket's resolved/merged state before writing it into docs — never from the ticket title/summary alone."
+- **Section**: ~/.claude/CLAUDE.md → Planning → Execution Workflow
+- **Rationale**: Retrospective and status-doc work is exactly where ticket-vs-reality drift produces false documentation; this prevented a concrete error this session and generalizes the verbatim-source-citation principle to version/state claims.
