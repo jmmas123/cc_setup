@@ -4,6 +4,9 @@
   },
   "permissions": {
     "allow": [
+      "Bash(yt mine:*)",
+      "Bash(yt view:*)",
+      "Bash(yt open:*)", 
       "WebSearch",
       "WebFetch",
       "Bash(git:*)",
@@ -242,8 +245,8 @@
     }
   },
   "effortLevel": "xhigh",
-  "skipWorkflowUsageWarning": true,
   "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
   "editorMode": "normal",
   "verbose": true,
   "preferredNotifChannel": "iterm2_with_bell",
