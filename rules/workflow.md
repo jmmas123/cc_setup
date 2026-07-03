@@ -40,6 +40,14 @@ Before ending or when user indicates they're done:
    - Pending actions (only what was explicitly agreed)
    - Blockers (with exact error messages if applicable)
 3. Keep STATE.md under 40 lines — it's a handoff document, not a narrative
+4. **Always produce the next-session initialization prompt.** Whenever a handoff is initiated —
+   session end, a `/compact`, "we're done", or any context reset — write/update the project's
+   next-session init prompt (e.g. `docs/superpowers/NEXT-SESSION-PROMPT.md` or equivalent) AND
+   surface its text in the reply so it can be pasted into the fresh window. The prompt must:
+   read STATE.md + the relevant spec first; state what just shipped (with the merge SHA); name
+   the recommended next slice and alternatives; and restate the load-bearing conventions
+   (branch/merge/push, abstraction-extraction default, subagent concurrency + per-phase verify).
+   This is mandatory, not optional — a handoff without an init prompt is incomplete.
 
 ## Quality Checks
 
