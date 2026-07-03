@@ -22,6 +22,14 @@ These apply to ALL projects.
 - No unnecessary abstractions or over-engineering
 - When a guard/regression test forbids a literal token via a grep-based static check, scope the grep to executable lines (e.g. `grep -vE '^[[:space:]]*#'` first) — otherwise the file cannot document the very hazard it guards against by name
 
+## Correctness & Completeness
+Derived from real corrections (kika retrospective, 2026-07-03) — these are recurring AI failure modes; the goal is they never recur on any project.
+- **Ship complete vertical slices, not scaffolding.** Don't commit UI wired to nothing, half-implemented flows (tokens minted but no email sent), or unused roles/models/config. Finish the slice end-to-end, or gate/remove the stub and file a tracked issue — never leave half-built work that looks done.
+- **Right-size complexity to the app in front of you.** Favor the simplest structure that works; add config layers, env-class hierarchies, or dependency splits only when a concrete present need demands them. (This is about infrastructure/config — distinct from code-reuse extraction.)
+- **No aspirational infrastructure.** Never reference, import, or advertise a security/infra feature that isn't actually active. Code and docs describe what *is* implemented, not the intended design — false security claims create unsafe assumptions.
+- **Default-deny authorization.** Every server endpoint/view ships with an explicit authorization check; a missing one is review-blocking, not a nit.
+- **Validate at the boundary.** Enforce domain/business constraints where input enters (serializers/handlers), not only at the model or UI. Sanitization (XSS/escaping) is not validation.
+
 ## Frontend / UI
 When picking a modern CSS feature for production UI (`backdrop-filter: url()`, `feDisplacementMap`, `paint-order` on text, container queries, `:has()`, etc.), verify Safari + Firefox + iOS support with WebSearch or caniuse before committing. State the cross-browser story in your first response, not after iteration. If the feature is Chromium-only, name it explicitly and ask whether graceful degradation is acceptable for the user's audience.
 
