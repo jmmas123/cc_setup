@@ -177,7 +177,8 @@ Review and apply with `/improve`.
 - **Section**: WeddingAssistant CLAUDE.md → Local dev orchestration
 - **Rationale**: Every future worktree agent hits both issues; documenting saves repeated rediscovery and avoids cross-agent test-DB interference.
 
-### [PENDING] #2026-06-11-jm-ms-a Plans must cite route/file paths verbatim from the tree
+### [APPROVED] (2026-07-03) #2026-06-11-jm-ms-a Plans must cite route/file paths verbatim from the tree
+**Resolution:** Added to `~/.claude/CLAUDE.md` → Planning → Execution Workflow ("Plan authoring quality" note).
 - **Source**: wrap-up
 - **Date**: 2026-06-11
 - **Signal**: The card-deep-linking plan wrote frontend routes as `(app)/w/[id]/...` but the real tree is `(dashboard)/w/[weddingId]/...`. The orchestrator had to pre-declare this drift in all three frontend subagent prompts; one subagent also found an anchor cited at settings/page.tsx:216 that actually lives in wedding-form.tsx:216.
@@ -185,7 +186,8 @@ Review and apply with `/improve`.
 - **Section**: ~/.claude/CLAUDE.md → Planning → Execution Workflow
 - **Rationale**: Path drift is the one defect class that recurred across every frontend phase this session; verbatim citation at plan time eliminates per-agent corrections.
 
-### [PENDING] #2026-06-19-jm-ms-a Lead with open-ended questions when diagnosing visual/UI issues
+### [APPROVED] (2026-07-03) #2026-06-19-jm-ms-a Lead with open-ended questions when diagnosing visual/UI issues
+**Resolution:** Added to `~/.claude/rules/coding-standards.md` → Frontend / UI.
 - **Source**: wrap-up
 - **Date**: 2026-06-19
 - **Signal**: During live UI tuning, the user twice rejected an AskUserQuestion (chose "let me clarify") on visual-diagnosis questions, then gave richer observations in their own words than the offered options captured ("two overlapping bubbles", "refraction off to the right"). Those observations pinned the root causes (specular dup, backdrop-filter+transform) faster than the multiple-choice hypotheses.
@@ -193,7 +195,8 @@ Review and apply with `/improve`.
 - **Section**: coding-standards.md → Frontend / UI
 - **Rationale**: The user iterates against the real app; open-ended observation surfaced root causes faster and avoided rejected tool calls.
 
-### [PENDING] #2026-06-20-jm-ms-a Subagents must stage explicit paths, never `git add -A`/`commit -a`
+### [APPROVED] (2026-07-03) #2026-06-20-jm-ms-a Subagents must stage explicit paths, never `git add -A`/`commit -a`
+**Resolution:** Added "Committing from Subagents" section to `~/.claude/rules/agent-coordination.md`.
 - **Source**: wrap-up
 - **Date**: 2026-06-20
 - **Signal**: During subagent-driven execution (kika Stage 2), two writer subagents had in-progress edits in the shared working tree concurrently; one ran `git add -A`/`git commit -a` and swept the other's uncommitted changes into a single mixed commit (later untangled via soft-reset, verified byte-identical). A subagent also misdiagnosed this as an "auto-commit hook" — the PostToolUse `checkpoint-notify.sh` only prints a banner, it never commits.
@@ -201,7 +204,8 @@ Review and apply with `/improve`.
 - **Section**: agent-coordination.md (new "Committing from subagents" note, near Worktree Protocol)
 - **Rationale**: Prevents the mixed-commit failure mode even when writers briefly overlap — a cheap, deterministic guard complementing the existing worktree-isolation guidance.
 
-### [PENDING] #2026-06-22-jm-ms-a Verify UI animations IN MOTION, not just at rest
+### [APPROVED] (2026-07-03) #2026-06-22-jm-ms-a Verify UI animations IN MOTION, not just at rest
+**Resolution:** Added to `~/.claude/rules/coding-standards.md` → Frontend / UI.
 - **Source**: wrap-up
 - **Date**: 2026-06-22
 - **Signal**: I verified a drop-icon centering fix with static rest-state checks (DOM-position probe + screenshots of the settled drop) and reported it "centered/fixed" on both engines. The user, watching the live animation, caught that the icon is off-center DURING travel and then snaps to center abruptly on arrival ("as if we just slapped the icon on the center") — a motion→rest discontinuity that rest-state verification structurally cannot detect. The root cause was an approach (resize-on-settle: transform-scale during motion → instant swap to real layout at settle) that is correct at rest but discontinuous in transit.
@@ -209,7 +213,8 @@ Review and apply with `/improve`.
 - **Section**: coding-standards.md → Frontend / UI
 - **Rationale**: The defect that slipped through this session was invisible to rest-state checks by construction; mandating in-motion verification closes that gap and would have caught the snap before claiming success.
 
-### [PENDING] #2026-06-23-jm-ms-a Ruff verification (and phase briefs) must cover ALL touched files, including tests
+### [APPROVED] (2026-07-03) #2026-06-23-jm-ms-a Ruff verification (and phase briefs) must cover ALL touched files, including tests
+**Resolution:** Generalized (not the WeddingAssistant-specific wording) and added to `~/.claude/rules/coding-standards.md` → Tools.
 - **Source**: wrap-up
 - **Date**: 2026-06-23
 - **Signal**: During Step 5c subagent-driven-development, the Phase 3 verify ran `ruff check apps/guests/loop.py` (primary module only). The new `apps/guests/tests/test_loop.py` had an E501 + a format deviation that ruff would fix — both slipped past the per-phase gate and were only caught at the final whole-branch verify, costing an extra fix+commit (`472fc103`).
@@ -217,7 +222,8 @@ Review and apply with `/improve`.
 - **Section**: Development Standards → Python/Django (project CLAUDE.md)
 - **Rationale**: Test/migration files are real lint surfaces; scoping ruff to the main module lets E501/format errors reach the merge gate where they cost an extra cycle. Enumerating all touched files in the verify step closes the gap cheaply and makes per-phase gates trustworthy.
 
-### [PENDING] #2026-06-23-jm-ms-a Treat plan/sample code as review-grade for security
+### [APPROVED] (2026-07-03) #2026-06-23-jm-ms-a Treat plan/sample code as review-grade for security
+**Resolution:** Added to `~/.claude/CLAUDE.md` → Planning → Execution Workflow ("Plan authoring quality" note).
 - **Source**: wrap-up
 - **Date**: 2026-06-23
 - **Signal**: During subagent-driven execution, implementers transcribe plan code verbatim. The Argus plan's sample code contained a credential-leaking log line (logged full RTSP URL with user:password), an XSS sink (innerHTML with interpolated event data), and a loose SQLite column type (track_id as REAL). All three shipped as real defects and were caught only by per-task/security review — three separate security/correctness fixes in one session.
@@ -225,7 +231,8 @@ Review and apply with `/improve`.
 - **Section**: Planning → Execution Workflow (CLAUDE.md)
 - **Rationale**: In verbatim-transcription workflows, a defect in the plan is a defect in production. Catching these at plan-authoring time is cheaper than a per-task fix + re-review cycle for each.
 
-### [PENDING] #2026-06-26-jm-ms-a `log` is shadowed by a shell function — use `/usr/bin/log` for unified-log queries
+### [APPROVED] (2026-07-03) #2026-06-26-jm-ms-a `log` is shadowed by a shell function — use `/usr/bin/log` for unified-log queries
+**Resolution:** Added to `~/.claude/rules/coding-standards.md` → Tools.
 - **Source**: wrap-up
 - **Date**: 2026-06-26
 - **Signal**: While diagnosing a WindowServer crash, every `log show ...` call returned empty/`(eval):log:1: too many arguments`. The user's shell config defines a `log` function that shadows the `/usr/bin/log` binary. Several diagnostic queries silently produced no output before this was spotted, wasting iterations.
@@ -233,7 +240,8 @@ Review and apply with `/improve`.
 - **Section**: Coding Standards → Tools (coding-standards.md)
 - **Rationale**: Bare `log` fails silently (empty results, not an error), which is easy to misread as "no log data" and send diagnosis down a wrong path. Absolute path is a one-token fix that makes log forensics reliable.
 
-### [PENDING] #2026-06-26-jm-ms-b Scope static-check guard tests to executable lines so hazards can still be named in comments
+### [APPROVED] (2026-07-03) #2026-06-26-jm-ms-b Scope static-check guard tests to executable lines so hazards can still be named in comments
+**Resolution:** Added to `~/.claude/rules/coding-standards.md` → Code Hygiene.
 - **Source**: wrap-up
 - **Date**: 2026-06-26
 - **Signal**: A regression test asserted a hook never references `terminal-notifier` by grepping the WHOLE file. That also banned the literal from the file's own warning comment, forcing the "do not reintroduce terminal-notifier" hazard note to be reworded into something vaguer. Caught in final review; required an extra hardening commit to scope the grep to non-comment lines and restore the explicit name.
@@ -241,7 +249,8 @@ Review and apply with `/improve`.
 - **Section**: Coding Standards → Code Hygiene (coding-standards.md)
 - **Rationale**: A static check that also gags the documentation of its own hazard weakens the human signal in exactly the file most likely to be edited later. Scoping the grep keeps enforcement strict while letting the warning name the offender.
 
-### [PENDING] #2026-07-02-jm-ms-a Clarify NumPy docstring requirement (Parameters/Returns threshold)
+### [APPROVED] (2026-07-03) #2026-07-02-jm-ms-a Clarify NumPy docstring requirement (Parameters/Returns threshold)
+**Resolution:** Modified the Python docstring line in `~/.claude/rules/coding-standards.md`.
 - **Source**: wrap-up
 - **Date**: 2026-07-02
 - **Signal**: coding-standards.md says "NumPy-style docstrings for public functions" but does not say whether every function needs full Parameters/Returns sections. During subagent-driven implementation this ambiguity produced a review loop (a 6-parameter function was flagged Important for a prose-only docstring) and forced a mid-execution convention decision that then had to be injected into every subsequent task dispatch.

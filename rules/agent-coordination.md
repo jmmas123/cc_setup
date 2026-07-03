@@ -40,6 +40,10 @@ When using `isolation: "worktree"`:
 - **Never symlink or move `node_modules`** (or any gitignored dependency dir) between the main checkout and a worktree — run `npm ci` in the worktree, or skip node-dependent verification and let the orchestrator verify after merge. Worktree cleanup (`git worktree remove --force`) follows symlinks' parent dirs and can destroy the main checkout's real dependencies.
 - Before any agent or task mutates frontend dependencies, confirm the dev server is stopped
 
+## Committing from Subagents
+
+Subagents that commit MUST stage only their own explicit file paths (`git add <path> …`), NEVER `git add -A` / `git add .` / `git commit -a`. On a shared working tree those sweep concurrent agents' in-progress edits into one mixed commit. For atomic isolation of parallel writers, use `isolation: "worktree"`. Also: verify any "a hook did X" diagnosis against the actual hook script before acting on it (e.g. the PostToolUse checkpoint hook prints a banner — it does not commit).
+
 ## Sequential Fallback
 
 Default to sequential execution when:

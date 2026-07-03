@@ -53,6 +53,10 @@ When a task requires planning (most non-trivial tasks):
    - **Option C:** Manual step-by-step in current session
 3. Always recommend Option A for plans with 5+ tasks.
 
+**Plan authoring quality** (a defect in a plan is a defect in production — implementers transcribe plans verbatim):
+- Cite file and route paths verbatim from the tree — verify with `ls`/glob at authoring time (including Next.js route-group segments); never reconstruct paths from memory. A wrong path propagates to every executing subagent.
+- Keep sample code review-grade: never log full URLs/secrets (redact userinfo), never build DOM via `innerHTML` with interpolated data (use `textContent`/`createElement`), type persistence columns to match their domain types. Self-review the plan's code for these before handing it off.
+
 ## Agent Types
 
 When spawning agents, always use the full qualified `plugin:agent` name. Common ones:
