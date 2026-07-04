@@ -15,6 +15,15 @@ through the `yt` CLI. Tracked repos and their project codes:
 | `~/Coding/Python/depocard-mobile` | DM |
 | `~/Coding/Python/atlas` | ATL |
 
+## Structure & reporting
+
+The **loop** below is the day-to-day CLI cadence. For how work is *structured* —
+the milestone / issue / sub-issue / Type hierarchy, the ground rules for
+granularity, the standardized field schema, and the dashboard roll-up contract —
+see the companion doc **`hierarchy-methodology.md`** in this skill directory.
+Read it when planning a milestone or laying out an issue tree (not needed for a
+routine take/move/comment/log pass).
+
 ## The loop
 
 **Session start** (in a tracked repo):
