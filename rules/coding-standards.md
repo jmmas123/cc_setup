@@ -22,6 +22,13 @@ These apply to ALL projects.
 - No unnecessary abstractions or over-engineering
 - When a guard/regression test forbids a literal token via a grep-based static check, scope the grep to executable lines (e.g. `grep -vE '^[[:space:]]*#'` first) — otherwise the file cannot document the very hazard it guards against by name
 
+## Reuse & generalization (check before you duplicate)
+Before writing code that resembles something already in the codebase, STOP and check whether a shared function / component / class / hook can serve both call sites. **The second occurrence is the trigger to generalize, not a license to copy-paste.**
+- Applies most to render blocks and UI shells (a device frame, an overlay, a card wrapper), iteration/mapping/grouping logic, and serialization shapes — the moment the same block is needed a second time, extract it into a named, independently-testable unit and have both sites consume it.
+- Balances against "no unnecessary abstractions" above: extract on the **2nd real occurrence** for reuse + testability; do NOT wrap a single caller in a speculative layer. This is about de-duplicating what already recurs, not pre-abstracting what might.
+- When you catch yourself re-implementing a prior pattern, surface it: name the existing implementation, propose the shared unit, and prefer maintainability over a fast copy.
+- Derived from kika (2026-07-08): two byte-identical hand-rolled phone frames (`guest-phone-card` + `site/phone-preview-card`) should have been one shared `PhoneFrame` from the second one on.
+
 ## Correctness & Completeness
 Derived from real corrections (kika retrospective, 2026-07-03) — these are recurring AI failure modes; the goal is they never recur on any project.
 - **Ship complete vertical slices, not scaffolding.** Don't commit UI wired to nothing, half-implemented flows (tokens minted but no email sent), or unused roles/models/config. Finish the slice end-to-end, or gate/remove the stub and file a tracked issue — never leave half-built work that looks done.
