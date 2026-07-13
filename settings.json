@@ -54,7 +54,7 @@
       "Read(//tmp/**)",
       "Skill(keybindings-help)",
       "Bash(bun --version)",
-      "Bash(_R=\"/Users/jm/.claude/plugins/marketplaces/thedotmack/plugin\")",
+      "Bash(_R=\"/Users/*/.claude/plugins/marketplaces/thedotmack/plugin\")",
       "Bash(node \"$_/scripts/bun-runner.js\" \"$_/scripts/worker-service.cjs\" hook claude-code summarize)",
       "Bash(node \"$_scripts/bun-runner.js\" \"$_scripts/worker-service.cjs\" hook claude-code summarize)",
       "Bash(ls:*)",
@@ -109,10 +109,10 @@
       "Bash(claude plugin *)",
       "Bash(semgrep mcp *)",
       "mcp__plugin_claude-mem_mcp-search__get_observations",
-      "Bash(node /Users/jm/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/bun-runner.js *)",
-      "Bash(node /Users/jm/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/smart-install.js)",
-      "Bash(CLAUDE_PLUGIN_ROOT=/Users/jm/.claude/plugins/cache/*/superpowers/* bash /Users/jm/.claude/plugins/cache/*/superpowers/*/hooks/session-start)",
-      "Bash(CLAUDE_PLUGIN_ROOT=/Users/jm/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/* bash /Users/jm/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/*/hooks-handlers/session-start.sh)"
+      "Bash(node /Users/*/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/bun-runner.js *)",
+      "Bash(node /Users/*/.claude/plugins/cache/thedotmack/claude-mem/*/scripts/smart-install.js)",
+      "Bash(CLAUDE_PLUGIN_ROOT=/Users/*/.claude/plugins/cache/*/superpowers/* bash /Users/*/.claude/plugins/cache/*/superpowers/*/hooks/session-start)",
+      "Bash(CLAUDE_PLUGIN_ROOT=/Users/*/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/* bash /Users/*/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/*/hooks-handlers/session-start.sh)"
     ],
     "defaultMode": "auto"
   },
