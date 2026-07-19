@@ -114,9 +114,9 @@
       "Bash(CLAUDE_PLUGIN_ROOT=/Users/*/.claude/plugins/cache/*/superpowers/* bash /Users/*/.claude/plugins/cache/*/superpowers/*/hooks/session-start)",
       "Bash(CLAUDE_PLUGIN_ROOT=/Users/*/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/* bash /Users/*/.claude/plugins/cache/claude-plugins-official/explanatory-output-style/*/hooks-handlers/session-start.sh)"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "acceptEdits"
   },
-  "model": "claude-opus-4-8",
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
