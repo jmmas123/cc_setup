@@ -273,3 +273,11 @@ Review and apply with `/improve`.
 - **Proposal**: Add to the "Plan authoring quality" section of CLAUDE.md: "Write plan-literal code so it passes the project's linter as-written — put all imports in the target file's top import block (never mid-file, even in an append-only task; tell the implementer which import to add to the existing block), and avoid ambiguous single-char names (`l`/`I`/`O`) in sample code. A reformat-before-commit is a spec deviation the reviewer must re-verify."
 - **Section**: Plan authoring quality (Planning → Execution Workflow)
 - **Rationale**: Removes a recurring per-task reformatting step and the re-verification it forces, keeping brief-literal code byte-identical to what lands.
+
+### [PENDING] #2026-06-11-jm-ms-b Recover dead implementation subagents via continuation agents, not relaunch
+- **Source**: wrap-up (recovered from stash@{1}, 2026-07-04)
+- **Date**: 2026-06-11
+- **Signal**: Two long-running implementation subagents died on server-side API errors mid-phase (liquid_glass_ui Phases 4 and 5). Both times substantial uncommitted work was already on disk; a fresh "continuation agent" instructed to treat the inherited diff as unverified (read it, scrutinize, fix, then run the full verification suite) recovered each phase without redoing implementation. Phase 4's continuation agent caught a real bug (clone typography inheritance) the original would have shipped.
+- **Proposal**: Add to agent-coordination.md: "If an implementation subagent dies mid-task (API error, timeout), do NOT relaunch its original prompt. First inspect the working tree (`git status`/`git diff --stat`) for partial work, then dispatch a continuation agent whose prompt: (1) states the previous agent died and its diff is unverified, (2) requires reading the inherited diff with suspicion before extending it, (3) carries the original acceptance criteria and verification checklist."
+- **Section**: agent-coordination.md (new subsection "Dead-agent recovery")
+- **Rationale**: Relaunching from scratch wastes the partial work and risks conflicting double-implementation; trusting the partial work blindly ships unverified code. The continuation pattern was validated twice in one session.
