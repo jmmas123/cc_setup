@@ -281,3 +281,11 @@ Review and apply with `/improve`.
 - **Proposal**: Add to agent-coordination.md: "If an implementation subagent dies mid-task (API error, timeout), do NOT relaunch its original prompt. First inspect the working tree (`git status`/`git diff --stat`) for partial work, then dispatch a continuation agent whose prompt: (1) states the previous agent died and its diff is unverified, (2) requires reading the inherited diff with suspicion before extending it, (3) carries the original acceptance criteria and verification checklist."
 - **Section**: agent-coordination.md (new subsection "Dead-agent recovery")
 - **Rationale**: Relaunching from scratch wastes the partial work and risks conflicting double-implementation; trusting the partial work blindly ships unverified code. The continuation pattern was validated twice in one session.
+
+### [PENDING] #2026-06-28-jm-mbp-2-a Verify the actually-served artifact before re-debugging a "fix that didn't take"
+- **Source**: wrap-up (recovered from stash, 2026-07-24)
+- **Date**: 2026-06-28
+- **Signal**: A correct iOS-Safari hero fix appeared "still broken" for ~6 device-test rounds. Root cause was never the code — `make up-phone-prod` is PROD mode (no hot reload) and the running `next-server` kept serving a frozen pre-fix build. Time was spent re-debugging correct source instead of checking what was being served.
+- **Proposal**: Add to the debugging guidance (global CLAUDE.md / rules): "When a fix appears not to take effect (especially on a device, another browser, or any no-hot-reload / cached / CDN context), FIRST verify the actually-served artifact before re-debugging the source — e.g. `curl` the served HTML/CSS/JS chunk and grep for your change, check the server process restarted (PID changed), or load in a private/cacheless window. Treat 'looks unchanged' as 'possibly stale build/cache' until proven otherwise. Do not start a new code hypothesis until the served build is confirmed to contain the change."
+- **Section**: Debugging / verification (near systematic-debugging guidance)
+- **Rationale**: Stale-build/cache masquerading as a broken fix is a high-cost, recurring failure mode for device/browser-tested frontend work; a one-line server/artifact check converts ~6 wasted rounds into seconds.
