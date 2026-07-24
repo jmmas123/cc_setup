@@ -265,3 +265,11 @@ Review and apply with `/improve`.
 - **Proposal**: Add to ~/.claude/CLAUDE.md → Planning → Execution Workflow ("Plan authoring quality"): "When documenting or reconciling project state from a tracker (issues/tickets), a ticket describing intended work is not evidence it merged. Verify each claim against the authoritative source (dependency pins, config files, running code) AND the ticket's resolved/merged state before writing it into docs — never from the ticket title/summary alone."
 - **Section**: ~/.claude/CLAUDE.md → Planning → Execution Workflow
 - **Rationale**: Retrospective and status-doc work is exactly where ticket-vs-reality drift produces false documentation; this prevented a concrete error this session and generalizes the verbatim-source-citation principle to version/state claims.
+
+### [PENDING] #2026-07-23-jm-ms-a Plan-literal code should pass ruff as-written
+- **Source**: wrap-up
+- **Date**: 2026-07-23
+- **Signal**: In the interior-model plan execution, ~5 of 10 tasks needed the implementer to reformat brief-literal code to satisfy ruff before committing: mid-file `from ... import ...` statements (E402) and `l` loop variables (E741, e.g. `tuple(l.name for l in levels)`). Every reformat is a spec deviation the reviewer must then re-verify as semantics-preserving.
+- **Proposal**: Add to the "Plan authoring quality" section of CLAUDE.md: "Write plan-literal code so it passes the project's linter as-written — put all imports in the target file's top import block (never mid-file, even in an append-only task; tell the implementer which import to add to the existing block), and avoid ambiguous single-char names (`l`/`I`/`O`) in sample code. A reformat-before-commit is a spec deviation the reviewer must re-verify."
+- **Section**: Plan authoring quality (Planning → Execution Workflow)
+- **Rationale**: Removes a recurring per-task reformatting step and the re-verification it forces, keeping brief-literal code byte-identical to what lands.
