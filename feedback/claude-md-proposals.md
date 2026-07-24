@@ -258,7 +258,7 @@ Review and apply with `/improve`.
 - **Section**: coding-standards.md -> Python
 - **Rationale**: Removes a recurring ambiguity that generated review churn; sets an unambiguous, proportionate bar so implementers and reviewers agree up front.
 
-### [PENDING] #2026-07-03-jm-ms-a A tracker ticket describing intended work is not proof it shipped — verify against source before documenting
+### [APPROVED] (2026-07-24) #2026-07-03-jm-ms-a A tracker ticket describing intended work is not proof it shipped — verify against source before documenting
 - **Source**: wrap-up
 - **Date**: 2026-07-03
 - **Signal**: During the kika retrospective, reconciling CLAUDE.md against KIK issue titles nearly wrote a false version into the doc. KIK-4 "Upgrade to Django 6" was Done and `pyproject.toml` confirmed `django>=6.0` (real drift, fixed) — but KIK-14 "Change Postgres version to 18" was stage *Review* and `docker-compose.yml` still ran `postgres:15-alpine`, so "Postgres 18" was NOT yet true. Reading the actual pins/config instead of trusting the ticket titles prevented documenting an unmerged change as done.
@@ -266,7 +266,7 @@ Review and apply with `/improve`.
 - **Section**: ~/.claude/CLAUDE.md → Planning → Execution Workflow
 - **Rationale**: Retrospective and status-doc work is exactly where ticket-vs-reality drift produces false documentation; this prevented a concrete error this session and generalizes the verbatim-source-citation principle to version/state claims.
 
-### [PENDING] #2026-07-23-jm-ms-a Plan-literal code should pass ruff as-written
+### [APPROVED] (2026-07-24) #2026-07-23-jm-ms-a Plan-literal code should pass ruff as-written
 - **Source**: wrap-up
 - **Date**: 2026-07-23
 - **Signal**: In the interior-model plan execution, ~5 of 10 tasks needed the implementer to reformat brief-literal code to satisfy ruff before committing: mid-file `from ... import ...` statements (E402) and `l` loop variables (E741, e.g. `tuple(l.name for l in levels)`). Every reformat is a spec deviation the reviewer must then re-verify as semantics-preserving.
@@ -274,7 +274,7 @@ Review and apply with `/improve`.
 - **Section**: Plan authoring quality (Planning → Execution Workflow)
 - **Rationale**: Removes a recurring per-task reformatting step and the re-verification it forces, keeping brief-literal code byte-identical to what lands.
 
-### [PENDING] #2026-06-11-jm-ms-b Recover dead implementation subagents via continuation agents, not relaunch
+### [APPROVED] (2026-07-24) #2026-06-11-jm-ms-b Recover dead implementation subagents via continuation agents, not relaunch
 - **Source**: wrap-up (recovered from stash@{1}, 2026-07-04)
 - **Date**: 2026-06-11
 - **Signal**: Two long-running implementation subagents died on server-side API errors mid-phase (liquid_glass_ui Phases 4 and 5). Both times substantial uncommitted work was already on disk; a fresh "continuation agent" instructed to treat the inherited diff as unverified (read it, scrutinize, fix, then run the full verification suite) recovered each phase without redoing implementation. Phase 4's continuation agent caught a real bug (clone typography inheritance) the original would have shipped.
@@ -282,7 +282,7 @@ Review and apply with `/improve`.
 - **Section**: agent-coordination.md (new subsection "Dead-agent recovery")
 - **Rationale**: Relaunching from scratch wastes the partial work and risks conflicting double-implementation; trusting the partial work blindly ships unverified code. The continuation pattern was validated twice in one session.
 
-### [PENDING] #2026-06-28-jm-mbp-2-a Verify the actually-served artifact before re-debugging a "fix that didn't take"
+### [APPROVED] (2026-07-24) #2026-06-28-jm-mbp-2-a Verify the actually-served artifact before re-debugging a "fix that didn't take"
 - **Source**: wrap-up (recovered from stash, 2026-07-24)
 - **Date**: 2026-06-28
 - **Signal**: A correct iOS-Safari hero fix appeared "still broken" for ~6 device-test rounds. Root cause was never the code — `make up-phone-prod` is PROD mode (no hot reload) and the running `next-server` kept serving a frozen pre-fix build. Time was spent re-debugging correct source instead of checking what was being served.

@@ -29,6 +29,12 @@ When suggesting, be brief: `"Good checkpoint to /compact — state is saved."` D
 
 When the user reports a UI element "used to be here yesterday" or "where did X go?", the FIRST step is `git log -p --follow <file>` or `git diff HEAD~N <file>` against the version they remember — BEFORE forming any hypothesis. The element may have been renamed, moved, or relocated to a different DOM tree in a prior commit. Only after confirming the change isn't in version history should you treat it as a fresh bug.
 
+### Verifying a fix took effect
+
+When a fix appears not to take effect — especially on a device, another browser, or any no-hot-reload / cached / CDN context — FIRST verify the **actually-served artifact** before re-debugging the source: `curl` the served HTML/CSS/JS chunk and grep for your change, check the server process restarted (PID changed), or load in a private/cacheless window. Treat "looks unchanged" as "possibly stale build/cache" until proven otherwise. Do not start a new code hypothesis until the served build is confirmed to contain the change.
+
+The same rule applies beyond web builds: compare the version an installed binary reports against the version actually running before auditing config that both are presumed to share.
+
 ## Session End Protocol
 
 Before ending or when user indicates they're done:

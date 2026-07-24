@@ -21,6 +21,16 @@ A subagent executes **exactly** the task it was dispatched with — no more. Whe
 - **A subagent must exit when its task is done** — it does not stay alive watching the tree for more work to pick up.
 - When dispatching, state this explicitly: *"Do ONLY this task. If you find anything else worth doing, report it in your final message — do not act on it."*
 
+## Dead-agent recovery
+
+If an implementation subagent dies mid-task (API error, timeout), do NOT relaunch its original prompt. First inspect the working tree (`git status` / `git diff --stat`) for partial work, then dispatch a **continuation agent** whose prompt:
+
+1. States that the previous agent died and its diff is **unverified**.
+2. Requires reading the inherited diff with suspicion before extending it.
+3. Carries the original acceptance criteria and verification checklist.
+
+**Why:** Relaunching from scratch wastes the partial work and risks conflicting double-implementation; trusting the partial work blindly ships unverified code. Validated twice in one session (liquid_glass_ui Phases 4 and 5) — the Phase 4 continuation agent caught a real bug the original would have shipped.
+
 ## Pre-Spawn Checklist
 
 Before spawning parallel implementation agents:

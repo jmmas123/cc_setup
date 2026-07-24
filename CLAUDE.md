@@ -56,6 +56,8 @@ When a task requires planning (most non-trivial tasks):
 **Plan authoring quality** (a defect in a plan is a defect in production — implementers transcribe plans verbatim):
 - Cite file and route paths verbatim from the tree — verify with `ls`/glob at authoring time (including Next.js route-group segments); never reconstruct paths from memory. A wrong path propagates to every executing subagent.
 - Keep sample code review-grade: never log full URLs/secrets (redact userinfo), never build DOM via `innerHTML` with interpolated data (use `textContent`/`createElement`), type persistence columns to match their domain types. Self-review the plan's code for these before handing it off.
+- When documenting or reconciling project state from a tracker (issues/tickets), a ticket describing intended work is not evidence it merged. Verify each claim against the authoritative source (dependency pins, config files, running code) AND the ticket's resolved/merged state before writing it into docs — never from the ticket title/summary alone.
+- Write plan-literal code so it passes the project's linter as-written — put all imports in the target file's top import block (never mid-file, even in an append-only task; tell the implementer which import to add to the existing block), and avoid ambiguous single-char names (`l`/`I`/`O`) in sample code. A reformat-before-commit is a spec deviation the reviewer must re-verify.
 
 ## Agent Types
 
