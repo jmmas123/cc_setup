@@ -19,7 +19,12 @@ security/
 chrome/
 daemon/
 daemon.log
+daemon-auth-cooldown
+daemon-auth-status.json
 jobs/
+# Server-pushed org policy + remote config — per-machine, never synced
+policy-limits.json
+remote-settings.json
 
 # ── Auto-generated / Session data ─────────────
 sessions/
