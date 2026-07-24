@@ -22,6 +22,12 @@ These apply to ALL projects.
 - No unnecessary abstractions or over-engineering
 - When a guard/regression test forbids a literal token via a grep-based static check, scope the grep to executable lines (e.g. `grep -vE '^[[:space:]]*#'` first) — otherwise the file cannot document the very hazard it guards against by name
 
+## Naming (legibility over brevity)
+Prefer descriptive variable names; a reader should not have to infer what a name holds. (kika reviewer, 2026-07-24.)
+- **Avoid generic abbreviations** — especially `obj`, and likewise `o`, `tmp`, `val`, `res`, `data` when something more specific fits. Name a value after what it *is*: a DRF serializer method's instance parameter is `service` / `event` / `guest`, not `obj`; a resolved DB row is `asset`, not `a`.
+- **Abbreviate only in the narrow, short-lived scopes the reviewer called out** — lambda / arrow-function parameters and similar one-line callbacks where the binding is obvious and consumed immediately (e.g. `.map((p) => …)`, `key=lambda e: e.starts_at`). Loop counters (`i`, `j`) are fine.
+- Applies to Python and JS/TS alike. When editing a file that already uses `obj`-style names, rename them in the parts you touch rather than matching the old habit.
+
 ## Reuse & generalization (check before you duplicate)
 Before writing code that resembles something already in the codebase, STOP and check whether a shared function / component / class / hook can serve both call sites. **The second occurrence is the trigger to generalize, not a license to copy-paste.**
 - Applies most to render blocks and UI shells (a device frame, an overlay, a card wrapper), iteration/mapping/grouping logic, and serialization shapes — the moment the same block is needed a second time, extract it into a named, independently-testable unit and have both sites consume it.
