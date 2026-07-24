@@ -247,6 +247,7 @@
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
+  "theme": "dark",
   "editorMode": "normal",
   "verbose": true,
   "preferredNotifChannel": "iterm2_with_bell",
