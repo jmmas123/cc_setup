@@ -69,3 +69,37 @@ When `claude-mem:do` executes a plan with multiple phases or tasks:
 - **Implementation tasks in different modules** → parallel with worktree isolation
 - **Implementation tasks in the same module** → sequential
 - **Review/test tasks** → sequential after all implementation is complete
+
+## Cost control: never burn tokens on an unbounded fan-out
+
+Derived from a real incident (kika, 2026-08-05): a six-agent review workflow ran
+for 36 minutes, consumed **2.2M subagent tokens, and produced ZERO results** —
+every agent stalled (no progress for 180s, six retries each) — yet the run still
+returned the plausible-sounding string *"No findings survived adversarial
+verification."* Nothing was reviewed. The cause was the prompt: each agent was
+told to *"sweep every view under `apps/rentals/views/` and `apps/vendors/views/`"*.
+
+**1. Bound the reading scope in the prompt.** Never write "sweep every X",
+"review all Y under `<dir>`", or "audit the whole Z". Enumerate the specific
+files the agent must open. If the file list isn't known yet, run one cheap
+discovery step first (a grep, a `find`) and pass the resulting list in. An
+unbounded reading task is the most common cause of a stalled agent.
+
+**2. Cap the work explicitly.** State a maximum number of files to open and a
+maximum number of findings, and say that returning early with fewer results is a
+valid, useful answer. Agents stall when they believe exhaustiveness is required.
+
+**3. Start with one agent, then fan out.** Run a single agent on a single
+dimension first. Only scale to N once one has completed in reasonable time on
+this codebase. A fan-out multiplies the cost of a bad prompt by N.
+
+**4. NEVER report a multi-agent result without checking that the agents ran.**
+Before believing any workflow output, check `agents_done` / `agents_error` in the
+usage block, and grep the run's `journal.jsonl` for `"type":"result"` lines. Zero
+results means the run FAILED. A summary like "no findings" is then an artifact of
+emptiness, not a clean bill of health — presenting it as reassurance is a serious
+error, because it converts a total failure into false confidence in the code.
+
+**5. Cost is a first-class constraint, not an afterthought.** Before launching a
+fan-out, state the expected agent count and rough budget. If a run can plausibly
+exceed ~1M tokens, scope it down or ask first.

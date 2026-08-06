@@ -14,6 +14,7 @@ These apply to ALL projects.
 - Use `gh` CLI for GitHub operations
 - Prefer `pytest -xvs` for debugging tests
 - Lint/format checks (`ruff check` / `ruff format --check`) must cover EVERY file a change touches — source AND tests/migrations — not just the primary module. Enumerate all touched files, or run against the diff's full file set
+- `rg -r` means `--replace`, NOT "recursive". `rg -rn 'foo'` rewrites every match to `n` and prints confident garbage that looks like real file content. Use `rg -n`. (Hit twice in one session, 2026-08-05.)
 - On macOS, `log` is shadowed by a shell function in this user's profile — call the unified-logging tool by absolute path (`/usr/bin/log show …`), never bare `log`, or queries silently fail with `too many arguments`
 
 ## Code Hygiene
