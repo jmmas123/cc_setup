@@ -42,6 +42,9 @@ Personal configuration for [Claude Code](https://claude.com/claude-code) — Ant
 ├── feedback/
 │   ├── retro-log.md                   # Append-only retrospective log
 │   └── friction-patterns.md           # Recurring friction themes
+├── codex/
+│   ├── config.snippet.toml            # Portable Codex prefs (status line) — merge by hand
+│   └── README.md                      # Why ~/.codex/config.toml isn't synced + how to apply
 ├── .env.example                       # Database credential template
 ├── .gitignore                         # Excludes sensitive/auto-generated files
 ├── SETUP.md                           # Setup guide for new machines

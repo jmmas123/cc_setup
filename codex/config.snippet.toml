@@ -1,0 +1,8 @@
+# Codex CLI preferences shared across machines.
+# NOT a full config.toml — merge these keys into ~/.codex/config.toml by hand.
+# See codex/README.md for why the whole file is not synced.
+
+[tui]
+# Footer: working dir, git branch, context usage, model + reasoning effort, token count.
+# Set on JM-MS 2026-09-10 with codex-cli 0.160.0.
+status_line = ["current-dir", "git-branch", "context-used", "context-window-size", "model-with-reasoning", "used-tokens"]
